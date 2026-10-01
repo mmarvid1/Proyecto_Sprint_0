@@ -25,9 +25,15 @@ public:
   // .........................................................
   void esperarDisponible() {
 
+<<<<<<< Updated upstream
 	while ( !Serial ) {
 	  delay(10);   
 	}
+=======
+	/*while ( !Serial ) {
+	  delay(10);   
+	}*/
+>>>>>>> Stashed changes
 
   } // ()
 
