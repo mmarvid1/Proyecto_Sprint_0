@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+    FICHERO : index.html
+    PROPOSITO: Pagina unica de la web del Sprint 0. Muestra el historial
+               de mediciones de la placa BLE en una tabla que se refresca
+               sola cada 5 segundos.
+    USO      : Proyecto Beacon. Al abrirla, la web pide por GET todas las
+               mediciones al servidor REST y las pinta. NO hay ningun
+               boton: la tabla se actualiza automaticamente.
+-->
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mediciones Beacon</title>
+
+    <!-- Tipografia del mockup: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+    <header class="cabecera">
+        <h1>Mediciones</h1>
+    </header>
+
+    <main id="contenedorMediciones">
+        <p class="estado estado-cargando">Cargando mediciones...</p>
+    </main>
+
+    <script src="js/logica_fake.js"></script>
+    <script src="js/ux.js"></script>
+</body>
+</html>

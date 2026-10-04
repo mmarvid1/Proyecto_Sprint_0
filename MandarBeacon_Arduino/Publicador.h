@@ -14,7 +14,7 @@ class Publicador {
   // ............................................................
   // ............................................................
 private:
-	const int16_t MINOR_MANUAL=1234;
+	const int16_t MINOR_MANUAL=100;
 	const int8_t TX_POWER= 4;
 
   uint8_t beaconUUID[16] = { 

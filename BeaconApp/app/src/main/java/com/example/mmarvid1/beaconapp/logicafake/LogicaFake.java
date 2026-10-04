@@ -37,13 +37,14 @@ public class LogicaFake {
     //  La ruta canonica del recurso. Termina en "/mediciones" por diseno: es el
     //  nombre del recurso, y el .htaccess de Apache lo sirve sin ".php".
     //
-    //  OJO CON LA IP: aqui va la de este PC, que cambia segun la red. Si la
-    //  cambias tambien en res/values/strings.xml (url_servidor), las dos cosas
-    //  tienen que apuntar al mismo sitio. En el emulador, la IP del PC es
-    //  10.0.2.2 y no la real.
+//  OJO CON LA IP: aqui va la de este PC, que cambia segun la red. Si la
+//  cambias tambien en res/values/strings.xml (url_servidor), las dos cosas
+//  tienen que apuntar al mismo sitio. La IP de ahora es la 192.168.18.178
+//  (Wi-Fi); se comprueba en el terminal con:  ipconfig
+//  En el emulador, la IP del PC es 10.0.2.2 y no la real.
     // ------------------------------------------------------------------
     public static final String URL_SERVIDOR =
-            "http://192.168.18.115/Proyecto_Sprint0/backend/public/mediciones";
+            "http://192.168.18.178/Proyecto_Sprint0/backend/public/mediciones";
 
     // ------------------------------------------------------------------
     //  Etiqueta de los logs de esta clase.
@@ -75,8 +76,11 @@ public class LogicaFake {
     //  PROPOSITO : dejar listo el cliente REST con el que se enviaran los datos.
     //  PARAM.    : ninguno.
     //  RETORNA   : nada (es un constructor).
-    //  NOTA      : PeticionarioREST es la clase que YA venia en el esqueleto; no
-    //              se ha tocado su codigo.
+//  NOTA      : PeticionarioREST es la clase que YA venia en el esqueleto.
+//              Se le anadieron tiempos de espera (connect/read) y onCancelled(),
+//              porque sin ellos un POST hacia el servidor se quedaba colgado
+//              para siempre cuando no habia cobertura y el callback no llegaba
+//              nunca, dejando la app sin poder volver a enviar mediciones.
     // ------------------------------------------------------------------
     public LogicaFake() {
         this(null);

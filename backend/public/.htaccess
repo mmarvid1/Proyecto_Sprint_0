@@ -1,0 +1,26 @@
+# =====================================================================
+# FICHERO : .htaccess
+# PROPOSITO: Reescribe las URLs del servidor REST para que todas las
+#            peticiones lleguen al front controller "index.php".
+# USO      : Sprint 0 - Proyecto Beacon. Consigue que la ruta canonica
+#            sea /Proyecto_Sprint0/backend/public/mediciones en lugar de
+#            .../mediciones.php: es REST limpio, sin ficheros en la ruta.
+# NOTA     : Requiere que Apache tenga permitido "AllowOverride All" en
+#            el directorio htdocs (asi lo trae XAMPP por defecto).
+# =====================================================================
+
+# ---- 1. Turns on the rewrite engine ----
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # ---- 2. Todo lo que no sea un fichero o carpeta real va a index.php ----
+    # Las condiciones evitan reescribir ficheros y carpetas que existen
+    # de verdad, y por tanto que index.php se llame a si mismo en bucle.
+    # La sustitucion es relativa a esta carpeta (backend/public), asi que
+    # la ruta canonica que queda es /Proyecto_Sprint0/backend/public/mediciones.
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# () Fin del fichero.

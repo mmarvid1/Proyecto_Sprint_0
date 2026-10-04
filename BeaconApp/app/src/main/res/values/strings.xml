@@ -21,7 +21,7 @@
       En el emulador de Android, "localhost" es el emulador, asi que la IP del PC
       se escribe como 10.0.2.2.
     -->
-    <string name="url_servidor" translatable="false">http://192.168.18.115/Proyecto_Sprint0/backend/public</string>
+    <string name="url_servidor" translatable="false">http://192.168.18.178/Proyecto_Sprint0/backend/public</string>
 
     <!--
       Nombre del beacon que buscamos. Tiene que ser EXACTAMENTE el mismo que
