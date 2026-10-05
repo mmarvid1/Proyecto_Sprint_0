@@ -11,35 +11,71 @@ import java.net.URL;
 import android.os.AsyncTask;
 import android.util.Log;
 
-// ------------------------------------------------------------------------
-// ------------------------------------------------------------------------
+// ===========================================================================
+//  Minerva Maravilla Vidaurre
+//  05/10/2026
+// ===========================================================================
+
+// -----------------------------------------------------------------------------------
+//  DISENO   --   PeticionarioREST
+// -----------------------------------------------------------------------------------
+//                               --------- PeticionarioREST -----
+//                               |
+//                               |
+//                               |
+//                               | TIEMPO_ESPERA_MS: N   (const)
+//                               | elMetodo: Text
+//                               | urlDestino: Text
+//                               | elCuerpo: Text
+//                               | laRespuesta: RespuestaREST
+//                               | codigoRespuesta: Z
+//                               | cuerpoRespuesta: Text
+//                               |
+//                               |
+//               metodo: Text --> hacerPeticionREST() -->
+//           urlDestino: Text -->
+//               cuerpo: Text -->
+//  laRespuesta: RespuestaREST -->
+//                               |
+//                               |
+//                                PeticionarioREST() -->
+//                               |
+//                               |
+//                          B <-- doInBackground() -->
+//                               |
+//                               |
+//                 comoFue: B --> onPostExecute() -->
+//                               |
+//                               |
+//                 comoFue: B --> onCancelled() -->
+//                               |
+//                               --------------------------------------
+//
+//                               --------- RespuestaREST --------
+//                               |
+//                               |
+//                               | // Interfaz anidada. La implementa MainActivity.
+//                               |
+//                               |
+//                               |
+//                  codigo: Z --> callback() -->
+//               cuerpo: Text -->
+//                               |
+//                               --------------------------------------
+// -----------------------------------------------------------------------------------
+
 public class PeticionarioREST extends AsyncTask<Void, Void, Boolean> {
-
-    // --------------------------------------------------------------------
-    //  Tiempo maximo de espera de la conexion y de la lectura, en ms.
-    //
-    //  ESTO ES IMPRESCINDIBLE: sin setConnectTimeout / setReadTimeout,
-    //  una peticion que no puede llegar al servidor (Wi-Fi malo, IP
-    //  equivocada, cortafuegos...) se queda ESPERANDO indefinitely y
-    //  doInBackground() no vuelve nunca. Como onPostExecute() solo se
-    //  llama cuando doInBackground() termina, el callback nunca llegaba,
-    //  el "peticionEnCurso" de MainActivity se quedaba en true para
-    //  siempre y la app dejo de enviar mediciones para siempre
-    //  ("ya hay un POST sin responder, no encolo otro" en bucle).
-    //
-    //  Con 5 segundos: si el servidor no contesta, se avisa igualmente
-    //  con codigo 0 y la app vuelve a intentarlo en el siguiente beacon.
-    // --------------------------------------------------------------------
     private static final int TIEMPO_ESPERA_MS = 5000;
-
-    // --------------------------------------------------------------------
-    // --------------------------------------------------------------------
     public interface RespuestaREST {
+
+// -----------------------------------------------------------------------------------
+//                  codigo: Z
+//               cuerpo: Text
+//                          --> callback() -->
+// -----------------------------------------------------------------------------------
         void callback (int codigo, String cuerpo);
     }
 
-    // --------------------------------------------------------------------
-    // --------------------------------------------------------------------
     private String elMetodo;
     private String urlDestino;
     private String elCuerpo = null;
@@ -48,25 +84,32 @@ public class PeticionarioREST extends AsyncTask<Void, Void, Boolean> {
     private int codigoRespuesta;
     private String cuerpoRespuesta = "";
 
-    // --------------------------------------------------------------------
-    // --------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//               metodo: Text
+//           urlDestino: Text
+//               cuerpo: Text
+//  laRespuesta: RespuestaREST
+//                          --> hacerPeticionREST() -->
+// -----------------------------------------------------------------------------------
     public void hacerPeticionREST (String metodo, String urlDestino, String cuerpo, RespuestaREST  laRespuesta) {
         this.elMetodo = metodo;
         this.urlDestino = urlDestino;
         this.elCuerpo = cuerpo;
         this.laRespuesta = laRespuesta;
 
-        this.execute(); // otro thread ejecutará doInBackground()
+        this.execute();
     }
 
-    // --------------------------------------------------------------------
-    // --------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//                                PeticionarioREST() -->
+// -----------------------------------------------------------------------------------
     public PeticionarioREST() {
         Log.d("clienterestandroid", "constructor()");
     }
 
-    // --------------------------------------------------------------------
-    // --------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//                          B <-- doInBackground() -->
+// -----------------------------------------------------------------------------------
     @Override
     protected Boolean doInBackground(Void... params) {
         Log.d("clienterestandroid", "doInBackground()");
@@ -74,10 +117,6 @@ public class PeticionarioREST extends AsyncTask<Void, Void, Boolean> {
         try {
 
             // envio la peticion
-
-            // pagina web para hacer pruebas: URL url = new URL("https://httpbin.org/html");
-            // ordinador del despatx 158.42.144.126 // OK URL url = new URL("http://158.42.144.126:8080");
-
             Log.d("clienterestandroid", "doInBackground() me conecto a >" + urlDestino + "<");
 
             URL url = new URL(urlDestino);
@@ -85,32 +124,29 @@ public class PeticionarioREST extends AsyncTask<Void, Void, Boolean> {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestProperty( "Content-Type", "application/json; charset-utf-8" );
             connection.setRequestMethod(this.elMetodo);
-            // connection.setRequestProperty("Accept", "*/*);
 
-            // connection.setUseCaches(false);
             connection.setDoInput(true);
 
             // ---- Tiempos maximos de espera ----
-            // Sin esto, si el servidor no esta accesible, la llamada se
-            // queda colgada para siempre y el callback no llega nunca.
+            // Sin esto, si el servidor no esta accesible, la llamada se queda colgada para siempre
+            // y el callback no llega nunca.
             connection.setConnectTimeout(TIEMPO_ESPERA_MS);
             connection.setReadTimeout(TIEMPO_ESPERA_MS);
 
             if ( ! this.elMetodo.equals("GET") && this.elCuerpo != null ) {
                 Log.d("clienterestandroid", "doInBackground(): no es get, pongo cuerpo");
                 connection.setDoOutput(true);
-                // si no es GET, pongo el cuerpo que me den en la peticin
+                // si no es GET, pongo el cuerpo que me den en la peticion
                 DataOutputStream dos = new DataOutputStream (connection.getOutputStream());
                 dos.writeBytes(this.elCuerpo);
                 dos.flush();
                 dos.close();
             }
 
-            // ya he enviado la peticin
+            // ya he enviado la peticion
             Log.d("clienterestandroid", "doInBackground(): peticin enviada ");
 
             // ahora obtengo la respuesta
-
             int rc = connection.getResponseCode();
             String rm = connection.getResponseMessage();
             String respuesta = "" + rc + " : " + rm;
@@ -157,41 +193,33 @@ try {
                 connection.disconnect();
             }
 
-            return true; // doInBackground() termina bien
+            return true;
 
         } catch (Exception ex) {
-            // ---- Aqui SOLO se llega si no hemos podido ni pedir la
-            //      respuesta: servidor caido, IP equivocada, sin cobertura,
-            //      cortafuegos... El codigo se queda en 0 y el cuerpo vacio,
-            //      que es como se le dice a MainActivity que no hubo
-            //      respuesta. OJO: con los tiempos de espera esto ya no
-            //      se queda colgado, aunque la red este mal.
+            //  Aqui SOLO se llega si no hemos podido ni pedir la respuesta: servidor caido,
+            //  IP equivocada, sin cobertura,ncortafuegos... El codigo se queda en 0 y el cuerpo vacio,
+            //  que es como se le dice a MainActivity que no hubo respuesta.
             this.codigoRespuesta = 0;
             this.cuerpoRespuesta = "";
             Log.d("clienterestandroid", "doInBackground(): NO se ha podido comunicar con el "
                     + "servidor = " + urlDestino + " -> " + ex );
         }
 
-        return false; // doInBackground() NO termina bien
-    } // ()
+        return false;
+    }
 
-    // --------------------------------------------------------------------
-    // --------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//                 comoFue: B --> onPostExecute() -->
+// -----------------------------------------------------------------------------------
     protected void onPostExecute(Boolean comoFue) {
         // llamado tras doInBackground()
         Log.d("clienterestandroid", "onPostExecute() comoFue = " + comoFue);
         this.laRespuesta.callback(this.codigoRespuesta, this.cuerpoRespuesta);
     }
 
-    // --------------------------------------------------------------------
-    //  onCancelled()
-    //
-    //  Si el sistema cancela la tarea (gira la pantalla, se mata la app,
-    //  falta memoria...) onPostExecute() NO se llama. Sin esto, el
-    //  "peticionEnCurso" de MainActivity se quedaria en true para siempre
-    //  y la app no volveria a enviar mediciones nunca mas. Asi que aqui
-    //  tambien avisamos, con codigo -1 para distinguirlo de un 0.
-    // --------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//                 comoFue: B --> onCancelled() -->
+// -----------------------------------------------------------------------------------
     @Override
     protected void onCancelled(Boolean comoFue) {
         Log.d("clienterestandroid", "onCancelled(): la peticion se ha cancelado");
@@ -199,7 +227,4 @@ try {
         this.cuerpoRespuesta = "";
         this.laRespuesta.callback(this.codigoRespuesta, this.cuerpoRespuesta);
     }
-
-} // class
-
-
+}

@@ -5,6 +5,32 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 // -----------------------------------------------------------------------------------
+//  DISENO LOGICO   --   CLASE COMPLETA
+// -----------------------------------------------------------------------------------
+//                    --------- MedicionTest ---------
+//                    |
+//                    |
+//                    | // Pruebas JUnit 4 en la maquina virtual.
+//                    | // Sin Bluetooth y sin red. Cada metodo devuelve
+//                    | // B: true = la comprobacion se cumple.
+//                    |
+//                    |
+//                    |
+//               B <-- elMinorSeLeeEnElOrdenEnQueViene() <--
+//                    |
+//                    |
+//               B <-- elMajorTambienVaEnOrdenNormal() <--
+//                    |
+//                    |
+//               B <-- elTxPowerRespetaElSigno() <--
+//                    |
+//                    |
+//               B <-- unaMedicionCompletaSeLeeBien() <--
+//                    |
+//                    --------------------------------------
+// -----------------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------
 //  PRUEBAS de la conversion de bytes a enteros y de la clase Medicion
 //  (JUnit 4, en la maquina virtual, sin Bluetooth ni sin red)
 //
@@ -23,6 +49,18 @@ public class MedicionTest {
     //  PRUEBA 1: el minor 1234 = 0x04D2 viaja como 0x04 0xD2, en orden
     //  normal. No hay que invertirlo.
     // ------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------
+//  DISENO LOGICO   --   METODO
+// -----------------------------------------------------------------------------------
+//                    --------- MedicionTest ---------
+//                    |
+//                    |
+//                    |
+//               B <-- elMinorSeLeeEnElOrdenEnQueViene() <--
+//                    |
+//                    --------------------------------------
+// -----------------------------------------------------------------------------------
     @Test
     public void elMinorSeLeeEnElOrdenEnQueViene() {
 
@@ -35,6 +73,18 @@ public class MedicionTest {
     //  PRUEBA 2: el major. El Arduino manda 0x0B00 + contador, asi que con
     //  contador = 163 sale 0x0BA3 = 2979, y en el aire van 0x0B 0xA3.
     // ------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------
+//  DISENO LOGICO   --   METODO
+// -----------------------------------------------------------------------------------
+//                    --------- MedicionTest ---------
+//                    |
+//                    |
+//                    |
+//               B <-- elMajorTambienVaEnOrdenNormal() <--
+//                    |
+//                    --------------------------------------
+// -----------------------------------------------------------------------------------
     @Test
     public void elMajorTambienVaEnOrdenNormal() {
 
@@ -47,6 +97,18 @@ public class MedicionTest {
     //  PRUEBA 3: el txPower es un byte CON signo, asi que 0xC5 es -59 y
     //  no 197.
     // ------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------
+//  DISENO LOGICO   --   METODO
+// -----------------------------------------------------------------------------------
+//                    --------- MedicionTest ---------
+//                    |
+//                    |
+//                    |
+//               B <-- elTxPowerRespetaElSigno() <--
+//                    |
+//                    --------------------------------------
+// -----------------------------------------------------------------------------------
     @Test
     public void elTxPowerRespetaElSigno() {
 
@@ -58,6 +120,18 @@ public class MedicionTest {
     //  PRUEBA 4: una medicion completa, montada con los mismos bytes que
     //  emite el Arduino, sale con los valores esperados.
     // ------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------
+//  DISENO LOGICO   --   METODO
+// -----------------------------------------------------------------------------------
+//                    --------- MedicionTest ---------
+//                    |
+//                    |
+//                    |
+//               B <-- unaMedicionCompletaSeLeeBien() <--
+//                    |
+//                    --------------------------------------
+// -----------------------------------------------------------------------------------
     @Test
     public void unaMedicionCompletaSeLeeBien() {
 

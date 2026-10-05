@@ -7,6 +7,34 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 // -----------------------------------------------------------------------------------
+//  DISENO LOGICO   --   CLASE COMPLETA
+// -----------------------------------------------------------------------------------
+//                        --------- LogicaFakeTest -------
+//                        |
+//                        |
+//                        | // Pruebas JUnit 4 en la maquina virtual, sin red.
+//                        | // Cada metodo devuelve B: true = la comprobacion
+//                        | // se cumple.
+//                        |
+//                        | UUID_PRUEBA: Text     (const)
+//                        | NOMBRE_PRUEBA: Text     (const)
+//                        | MAJOR_PRUEBA: N   (const)
+//                        | MINOR_PRUEBA: N   (const)
+//                        | TXPOWER_PRUEBA: N   (const)
+//                        |
+//                        |
+//                   B <-- urlServidorTerminaEnMediciones() <--
+//                        |
+//                        |
+//                   B <-- construirJSONTraeTodosLosCampos() <--
+//                        |
+//                        |
+//                   B <-- losNumerosSeMandanComoEnteros() <--
+//                        |
+//                        --------------------------------------
+// -----------------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------
 //  PRUEBAS de LogicaFake (JUnit 4, en la maquina virtual, sin red)
 //
 //  Que comprueban:
@@ -30,6 +58,18 @@ public class LogicaFakeTest {
     // ------------------------------------------------------------------
     //  PRUEBA 1: la URL del servidor acaba en el recurso "/mediciones".
     // ------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------
+//  DISENO LOGICO   --   METODO
+// -----------------------------------------------------------------------------------
+//                        --------- LogicaFakeTest -------
+//                        |
+//                        |
+//                        |
+//                   B <-- urlServidorTerminaEnMediciones() <--
+//                        |
+//                        --------------------------------------
+// -----------------------------------------------------------------------------------
     @Test
     public void urlServidorTerminaEnMediciones() {
 
@@ -40,6 +80,18 @@ public class LogicaFakeTest {
     // ------------------------------------------------------------------
     //  PRUEBA 2: el JSON trae los 5 datos con los valores del proyecto.
     // ------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------
+//  DISENO LOGICO   --   METODO
+// -----------------------------------------------------------------------------------
+//                        --------- LogicaFakeTest -------
+//                        |
+//                        |
+//                        |
+//                   B <-- construirJSONTraeTodosLosCampos() <--
+//                        |
+//                        --------------------------------------
+// -----------------------------------------------------------------------------------
     @Test
     public void construirJSONTraeTodosLosCampos() {
 
@@ -66,6 +118,18 @@ public class LogicaFakeTest {
     // ------------------------------------------------------------------
     //  PRUEBA 3: los numeros se mandan como enteros (sin comillas y sin ".0").
     // ------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------
+//  DISENO LOGICO   --   METODO
+// -----------------------------------------------------------------------------------
+//                        --------- LogicaFakeTest -------
+//                        |
+//                        |
+//                        |
+//                   B <-- losNumerosSeMandanComoEnteros() <--
+//                        |
+//                        --------------------------------------
+// -----------------------------------------------------------------------------------
     @Test
     public void losNumerosSeMandanComoEnteros() {
 

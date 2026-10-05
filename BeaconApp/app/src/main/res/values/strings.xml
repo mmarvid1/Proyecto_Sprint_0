@@ -1,31 +1,9 @@
 <resources>
     <string name="app_name">BeaconApp</string>
 
-    <!--
-      Raiz del servidor REST, SIN barra final y SIN "/mediciones": esa parte la
-      anade sola la clase LogicaFake.
+    <!-- Recordar cambiar la ip dependiendo si estamos utilizando wifi o datos -->
+    <string name="url_servidor" translatable="false">http://10.215.29.138/Proyecto_Sprint0/backend/public</string>
 
-      El backend lo sirve Apache de XAMPP (puerto 80), no un servidor de PHP
-      aparte, asi que NO hay ningun ":8000" aqui. La carpeta del proyecto dentro
-      de htdocs es "Proyecto_Sprint0", de modo que queda:
-
-        http://<IP-del-PC>/Proyecto_Sprint0/backend/public/mediciones
-
-      IMPORTANTE: hay que poner la IP del PC en la red local, no "localhost",
-      porque el "localhost" del telefono es el propio telefono.
-
-      En el movil y en el PC tienen que estar en la misma red, y el cortafuegos
-      de Windows tiene que dejar pasar a Apache. La IP se cambia desde el
-      terminal con:    ipconfig
-
-      En el emulador de Android, "localhost" es el emulador, asi que la IP del PC
-      se escribe como 10.0.2.2.
-    -->
-    <string name="url_servidor" translatable="false">http://192.168.18.178/Proyecto_Sprint0/backend/public</string>
-
-    <!--
-      Nombre del beacon que buscamos. Tiene que ser EXACTAMENTE el mismo que
-      emite el Arduino (MandarBeacon_Arduino -> Publicador.h).
-    -->
+    <!--Nombre del beacon que buscamos. Tiene que ser exactamente el mismo-->
     <string name="nombre_beacon" translatable="false">Minerva_ELBACON</string>
 </resources>

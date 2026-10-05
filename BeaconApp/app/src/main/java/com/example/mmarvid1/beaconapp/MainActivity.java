@@ -1,6 +1,4 @@
 package com.example.mmarvid1.beaconapp;
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -28,22 +26,166 @@ import com.example.mmarvid1.beaconapp.logicafake.LogicaFake;
 
 import java.util.List;
 
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
+// ===========================================================================
+//  Minerva Maravilla Vidaurre
+//  05/10/2026
+// ===========================================================================
+
+// -----------------------------------------------------------------------------------
+//  DISENO   --   MainActivity
+// -----------------------------------------------------------------------------------
+//                                --------- MainActivity ---------
+//                                |
+//                                |
+//                                |
+//                                | ETIQUETA_LOG: Text   (const)
+//                                | NOMBRE_EMISORA: Text   (const)
+//                                | INTERVALO_MINIMO_POST: N   (const)
+//                                | CODIGO_PETICION_PERMISOS: N   (const)
+//                                | CODIGO_PETICION_ENCENDER_BT: N   (const)
+//                                | LONGITUD_MINIMA_TRAMA_IBEACON: N   (const)
+//                                | elEscanner: BluetoothLeScanner
+//                                | callbackDelEscaneo: ScanCallback
+//                                | elAdaptadorBluetooth: BluetoothAdapter
+//                                | receptorEstadoBluetooth: BroadcastReceiver
+//                                | busquedaPendiente: Text
+//                                | laLogicaFake: LogicaFake
+//                                | respuestaDelServidor: RespuestaREST
+//                                | instanteDelUltimoPost: N
+//                                | peticionEnCurso: B
+//                                |
+//                                |
+//                                 buscarTodosLosDispositivosBTLE() -->
+//                                |
+//                                |
+//       resultado: ScanResult --> mostrarInformacionDispositivoBTLE() <--
+//                                |
+//                                |
+//    dispositivoBuscado: Text --> buscarEsteDispositivoBTLE() -->
+//                                |
+//                                |
+//       resultado: ScanResult --> nombreDelScanRecord() <--
+//                nombre: Text <--
+//                                |
+//                                |
+//       resultado: ScanResult --> procesarMedicion() -->
+//              elNombre: Text -->
+//                                |
+//                                |
+//                                 detenerBusquedaDispositivosBTLE() -->
+//                                |
+//                                |
+//                     v: View --> botonBuscarDispositivosBTLEPulsado() -->
+//                                |
+//                                |
+//                     v: View --> botonBuscarNuestroDispositivoBTLEPulsado() -->
+//                                |
+//                                |
+//                     v: View --> botonDetenerBusquedaDispositivosBTLEPulsado() -->
+//                                |
+//                                |
+//                                 inicializarBlueTooth() -->
+//                                |
+//                                |
+//                                 registrarReceptorEstadoBluetooth() -->
+//                                |
+//                                |
+//                           B <-- comprobarBluetoothYEscaner() -->
+//                                |
+//                                |
+//                                 pedirEncenderBluetoothAlUsuario() -->
+//                                |
+//                                |
+//                                 arrancarBusquedaPendiente() -->
+//                                |
+//                                |
+//               mensaje: Text --> avisarAlUsuario() -->
+//                                |
+//                                |
+//                                 pedirPermisosSiFaltan() -->
+//                                |
+//                                |
+//        losQueFaltan: [Text] --> anadirPermisoSiFalta() -->
+//             elPermiso: Text -->
+//                                |
+//                                |
+//  savedInstanceState: Bundle --> onCreate() -->
+//                                |
+//                                |
+//              requestCode: N --> onRequestPermissionsResult() -->
+//         permissions: [Text] -->
+//           grantResults: [Z] -->
+//                                |
+//                                |
+//              requestCode: N --> onActivityResult() -->
+//               resultCode: N -->
+//                data: Intent -->
+//                                |
+//                                |
+//                                 onDestroy() -->
+//                                |
+//                                --------------------------------------
+//
+//                                --------- ScanCallback (anonima) ---
+//                                |
+//                                |
+//                                | // Clase anonima creada dentro de
+//                                | // buscarTodosLosDispositivosBTLE() y de
+//                                | // buscarEsteDispositivoBTLE(). El caso de
+//                                | // buscarEsteDispositivoBTLE() es el que
+//                                | // filtra por nombre y lanza procesarMedicion().
+//                                |
+//                                | dispositivoBuscado: Text
+//                                |
+//                                |
+//             callbackType: N --> onScanResult() -->
+//       resultado: ScanResult -->
+//                                |
+//                                |
+//       results: [ScanResult] --> onBatchScanResults() <--
+//                                |
+//                                |
+//                errorCode: N --> onScanFailed() <--
+//                                |
+//                                --------------------------------------
+//
+//                                --------- BroadcastReceiver (anonima) ---
+//                                |
+//                                |
+//                                | // Clase anonima creada dentro de
+//                                | // registrarReceptorEstadoBluetooth(). Avisa en
+//                                | // cuanto el bluetooth se enciende.
+//                                |
+//                                |
+//                                |
+//           contexto: Context --> onReceive() -->
+//           intencion: Intent -->
+//                                |
+//                                --------------------------------------
+//
+//                                --------- RespuestaREST (anonima) ---
+//                                |
+//                                |
+//                                | // Clase anonima creada dentro del atributo
+//                                | // respuestaDelServidor. Destapa el semaforo
+//                                | // peticionEnCurso SIEMPRE, pase lo que pase.
+//                                |
+//                                |
+//                                |
+//                   codigo: Z --> callback() -->
+//                cuerpo: Text -->
+//                                |
+//                                --------------------------------------
+// -----------------------------------------------------------------------------------
 
 public class MainActivity extends AppCompatActivity {
 
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
     private static final String ETIQUETA_LOG = ">>>>";
+    private static final String NOMBRE_EMISORA = "Minerva_ELBACON";
 
+    //  Separacion minima entre dos POST seguidos, en milisegundos.
+    private static final long INTERVALO_MINIMO_POST = 5000;
     private static final int CODIGO_PETICION_PERMISOS = 11223344;
-
-    // --------------------------------------------------------------
-    //  Codigo de la peticion del dialogo del sistema para ENCENDER el
-    //  bluetooth (no con enable(), que esta obsoleto y ya no lo hace
-    //  solo desde Android 11 / API 33).
-    // --------------------------------------------------------------
     private static final int CODIGO_PETICION_ENCENDER_BT = 55667788;
 
     // --------------------------------------------------------------
@@ -57,45 +199,13 @@ public class MainActivity extends AppCompatActivity {
     // --------------------------------------------------------------
     // --------------------------------------------------------------
     private BluetoothLeScanner elEscanner;
-
     private ScanCallback callbackDelEscaneo = null;
-
-    // --------------------------------------------------------------
-    //  elAdaptadorBluetooth
-    //
-    //  Lo guardamos porque lo vamos a necesitar cada vez que haya que
-    //  comprobar si el bluetooth esta encendido.
-    // --------------------------------------------------------------
     private BluetoothAdapter elAdaptadorBluetooth = null;
-
-    // --------------------------------------------------------------
-    //  receptorEstadoBluetooth
-    //
-    //  Escucha los avisos del sistema sobre el bluetooth. Sirve para
-    //  tener escaner en cuanto el bluetooth se ENCIENDE (ver el
-    //  comentario de inicializarBlueTooth).
-    // --------------------------------------------------------------
     private BroadcastReceiver receptorEstadoBluetooth = null;
 
-    // --------------------------------------------------------------
-    //  busquedaPendiente
-    //
-    //  Que busqueda ha pedido el usuario con un boton y que todavia no
-    //  hemos podido arrancar porque faltaba el bluetooth o los
-    //  permisos:
-    //     null               -> no hay nada pendiente
-    //     "todos"            -> buscarTodosLosDispositivosBTLE
-    //     "<nombre>"         -> buscarEsteDispositivoBTLE de esa emisora
-    //
-    //  En cuanto el bluetooth este listo, se arranca sola.
-    // --------------------------------------------------------------
-    private String busquedaPendiente = null;
 
-    // --------------------------------------------------------------
-    //  laLogicaFake: LogicaFake
-    //
-    //  La que sabe mandar la medicion al servidor REST por POST.
-    // --------------------------------------------------------------
+    //  En cuanto el bluetooth este listo, se arranca sola.
+    private String busquedaPendiente = null;
     private LogicaFake laLogicaFake = new LogicaFake();
 
     // --------------------------------------------------------------
@@ -105,6 +215,12 @@ public class MainActivity extends AppCompatActivity {
     // --------------------------------------------------------------
     private PeticionarioREST.RespuestaREST respuestaDelServidor =
             new PeticionarioREST.RespuestaREST() {
+
+// -----------------------------------------------------------------------------------
+//                   codigo: Z
+//                cuerpo: Text
+//                             --> callback() -->
+// -----------------------------------------------------------------------------------
                 @Override
                 public void callback(int codigo, String cuerpo) {
                     Log.d(ETIQUETA_LOG, " MainActivity: el servidor REST ha contestado codigo = "
@@ -131,13 +247,13 @@ public class MainActivity extends AppCompatActivity {
     private long instanteDelUltimoPost = 0;
 
     // --------------------------------------------------------------
-    //  Semaforo: true mientras hay un POST sin responder. Evita que se
-    //  acumulen peticiones si el servidor va lento o no hay cobertura.
+    //  Semaforo: true mientras hay un POST sin responder. Evita que se acumulen peticiones.
     // --------------------------------------------------------------
     private boolean peticionEnCurso = false;
 
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//                                 buscarTodosLosDispositivosBTLE() -->
+// -----------------------------------------------------------------------------------
     private void buscarTodosLosDispositivosBTLE() {
         Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): empieza ");
 
@@ -151,6 +267,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): instalamos scan callback ");
 
         this.callbackDelEscaneo = new ScanCallback() {
+
+// -----------------------------------------------------------------------------------
+//             callbackType: N
+//       resultado: ScanResult
+//                          --> onScanResult() -->
+// -----------------------------------------------------------------------------------
             @Override
             public void onScanResult( int callbackType, ScanResult resultado ) {
                 super.onScanResult(callbackType, resultado);
@@ -159,6 +281,10 @@ public class MainActivity extends AppCompatActivity {
                 mostrarInformacionDispositivoBTLE( resultado );
             }
 
+// -----------------------------------------------------------------------------------
+//       results: [ScanResult] --> onBatchScanResults() <--
+// -----------------------------------------------------------------------------------
+
             @Override
             public void onBatchScanResults(List<ScanResult> results) {
                 super.onBatchScanResults(results);
@@ -166,6 +292,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+// -----------------------------------------------------------------------------------
+//                errorCode: N --> onScanFailed() <--
+// -----------------------------------------------------------------------------------
             @Override
             public void onScanFailed(int errorCode) {
                 super.onScanFailed(errorCode);
@@ -178,18 +307,17 @@ public class MainActivity extends AppCompatActivity {
 
         this.elEscanner.startScan( this.callbackDelEscaneo);
 
-    } // ()
+    }
 
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//       resultado: ScanResult --> mostrarInformacionDispositivoBTLE() <--
+// -----------------------------------------------------------------------------------
     private void mostrarInformacionDispositivoBTLE( ScanResult resultado ) {
-
         BluetoothDevice bluetoothDevice = resultado.getDevice();
         int rssi = resultado.getRssi();
 
-        // ---- Sin scan record no hay trama que mirar ni nombre que
-        //      sacar, asi que no hay nada que mostrar de este resultado.
-        //      Sin esta comprobacion esto reventaba con NPE. ----
+        // Sin scan record no hay trama que mirar ni nombre que sacar,
+        // asi que no hay nada que mostrar de este resultado.
         if ( resultado.getScanRecord() == null ) {
             Log.d(ETIQUETA_LOG, " mostrarInformacionDispositivoBTLE(): este resultado no tiene "
                     + "scan record (rssi = " + rssi + "), lo ignoro" );
@@ -229,17 +357,15 @@ public class MainActivity extends AppCompatActivity {
         Log.d(ETIQUETA_LOG, " txPower  = " + Integer.toHexString(tib.getTxPower()) + " ( "
                 + Utilidades.bytesToIntOK(new byte[]{ tib.getTxPower() }) + " )");
         Log.d(ETIQUETA_LOG, " ****************************************************");
+    }
 
-    } // ()
-
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//    dispositivoBuscado: Text --> buscarEsteDispositivoBTLE() -->
+// -----------------------------------------------------------------------------------
     private void buscarEsteDispositivoBTLE(final String dispositivoBuscado ) {
         Log.d(ETIQUETA_LOG, " buscarEsteDispositivoBTLE(): empieza ");
 
         // ---- Sin escaner no hay busqueda: no reventamos la app ----
-        // Antes esto petaba con NullPointerException al hacer
-        // startScan con el escaner a null.
         if ( ! comprobarBluetoothYEscaner() ) {
             Log.d(ETIQUETA_LOG, " buscarEsteDispositivoBTLE(): no hay escaner, busqueda pendiente");
             this.busquedaPendiente = dispositivoBuscado;
@@ -288,21 +414,18 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(ETIQUETA_LOG, "  buscarEsteDispositivoBTLE(): empezamos a escanear buscando: " + dispositivoBuscado );
 
-        // Sin ScanFilter a proposito: el filtro por nombre de Android no
-        // siempre casa con el nombre que va en el scan response. Escanear
-        // todo y descartar aqui es mas fiable.
+        // Sin ScanFilter a proposito: el filtro por nombre de Android no siempre casa con el
+        // nombre que va en el scan response. Escanear todo y descartar aqui es mas fiable.
         this.elEscanner.startScan( null, ajustes, this.callbackDelEscaneo );
-    } // ()
+    }
 
-    // --------------------------------------------------------------
-    //  nombreDelScanRecord()
-    //
-    //  El nombre de la emisora va en el SCAN RESPONSE, asi que hay que
-    //  leerlo de ahi y no de getDevice().getName() (que necesita
-    //  BLUETOOTH_CONNECT y solo devuelve el nombre cacheado del GAP).
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//       resultado: ScanResult --> nombreDelScanRecord() <--
+//                nombre: Text <--
+//  El nombre de la emisora va en el SCAN RESPONSE, asi que hay que leerlo de ahi y no de
+//  getDevice().getName() (que necesita BLUETOOTH_CONNECT y solo devuelve el nombre cacheado del GAP).
+// -----------------------------------------------------------------------------------
     private String nombreDelScanRecord( ScanResult resultado ) {
-
         if ( resultado.getScanRecord() == null ) {
             return "";
         }
@@ -310,17 +433,15 @@ public class MainActivity extends AppCompatActivity {
         String elNombre = resultado.getScanRecord().getDeviceName();
 
         return ( elNombre == null ? "" : elNombre );
-    } // ()
+    }
 
-    // --------------------------------------------------------------
-    //  procesarMedicion()
-    //
-    //  1. Parte los bytes de la trama.
-    //  2. Construye la Medicion (que convierte los bytes a enteros).
-    //  3. Se la pasa a LogicaFake, que hace el POST.
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//       resultado: ScanResult
+//              elNombre: Text
+//                          --> procesarMedicion() -->
+// -----------------------------------------------------------------------------------
     private void procesarMedicion( ScanResult resultado, String elNombre ) {
-
+        //  1. Parte los bytes de la trama.
         byte[] bytes = resultado.getScanRecord().getBytes();
 
         if ( bytes.length < LONGITUD_MINIMA_TRAMA_IBEACON ) {
@@ -329,11 +450,14 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        //  2. Construye la Medicion (que convierte los bytes a enteros).
         TramaIBeacon tib = new TramaIBeacon(bytes);
 
         Medicion laMedicion = new Medicion( elNombre, tib );
 
         Log.d(ETIQUETA_LOG, " procesarMedicion(): " + laMedicion );
+
+        //  3. Se la pasa a LogicaFake, que hace el POST.
 
         // ---- no machacar el servidor: como mucho un POST cada X ms, y solo si
         //      no hay ya otro POST esperando respuesta ----
@@ -344,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        if ( ahora - this.instanteDelUltimoPost < Constantes.INTERVALO_MINIMO_POST ) {
+        if ( ahora - this.instanteDelUltimoPost < INTERVALO_MINIMO_POST ) {
             Log.d(ETIQUETA_LOG, " procesarMedicion(): todavia no toca mandar otro POST");
             return;
         }
@@ -353,13 +477,12 @@ public class MainActivity extends AppCompatActivity {
         this.peticionEnCurso = true;
 
         this.laLogicaFake.guardarMedicion( laMedicion, respuestaDelServidor );
+    }
 
-    } // ()
-
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//                                 detenerBusquedaDispositivosBTLE() -->
+// -----------------------------------------------------------------------------------
     private void detenerBusquedaDispositivosBTLE() {
-
         if ( this.callbackDelEscaneo == null ) {
             return;
         }
@@ -372,60 +495,44 @@ public class MainActivity extends AppCompatActivity {
         this.callbackDelEscaneo = null;
 
         this.busquedaPendiente = null;
+    }
 
-    } // ()
-
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//                     v: View --> botonBuscarDispositivosBTLEPulsado() -->
+// -----------------------------------------------------------------------------------
     public void botonBuscarDispositivosBTLEPulsado( View v ) {
         Log.d(ETIQUETA_LOG, " boton buscar dispositivos BTLE Pulsado" );
         this.buscarTodosLosDispositivosBTLE();
-    } // ()
+    }
 
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//                     v: View --> botonBuscarNuestroDispositivoBTLEPulsado() -->
+// -----------------------------------------------------------------------------------
     public void botonBuscarNuestroDispositivoBTLEPulsado( View v ) {
         Log.d(ETIQUETA_LOG, " boton nuestro dispositivo BTLE Pulsado" );
 
-        this.buscarEsteDispositivoBTLE( Constantes.NOMBRE_EMISORA );
+        this.buscarEsteDispositivoBTLE( NOMBRE_EMISORA );
+    }
 
-    } // ()
-
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//                     v: View --> botonDetenerBusquedaDispositivosBTLEPulsado() -->
+// -----------------------------------------------------------------------------------
     public void botonDetenerBusquedaDispositivosBTLEPulsado( View v ) {
         Log.d(ETIQUETA_LOG, " boton detener busqueda dispositivos BTLE Pulsado" );
         this.detenerBusquedaDispositivosBTLE();
-    } // ()
+    }
 
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
-    //  inicializarBlueTooth()
-    //
-    //  Solo deja el bluetooth listo: guarda el adaptador y se queda
-    //  escuchando cuando se enciende.
-    //
-    //  ANTES AQUI ESTA EL FALLO QUE ARREGLO:
-    //  se hacia adaptador.enable() y acto seguido
-    //  adaptador.getBluetoothLeScanner(). El problema es que enable()
-    //  es ASINCRONO: cuando getBluetoothLeScanner() ya ha devolvido
-    //  null porque el bluetooth aun no estaba encendido. Y como solo
-    //  escribiamos un log y seguiamos adelante, el null se quedaba
-    //  guardado en elEscaner y reventaba (NullPointerException) al
-    //  pulsar el boton de buscar.
-    //  Ademas, desde Android 11 (API 33) enable() esta obsoleto y ya
-    //  no enciende el bluetooth por nosotros, asi que ni siquiera
-    //  servia para arreglarlo.
-    //
-    //  Ahora el escaner se pide SOLO cuando el bluetooth esta de
-    //  verdad encendido, y si no lo esta se le pide al usuario.
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//        inicializarBlueTooth() -->
+//
+//  Solo deja el bluetooth listo: guarda el adaptador y se queda escuchando cuando se enciende.
+// -----------------------------------------------------------------------------------
     private void inicializarBlueTooth() {
         Log.d(ETIQUETA_LOG, " inicializarBlueTooth(): obtenemos adaptador BT ");
 
         this.elAdaptadorBluetooth = BluetoothAdapter.getDefaultAdapter();
 
-        // ---- 1. Nos quedamos escuchando a los cambios de estado ----
+        // 1. Nos quedamos escuchando a los cambios de estado
         // Asi, en cuanto el usuario encienda el bluetooth, lo sabemos
         // y podemos pedir el escaner.
         registrarReceptorEstadoBluetooth();
@@ -435,29 +542,39 @@ public class MainActivity extends AppCompatActivity {
                     ? "sin adaptador"
                     : this.elAdaptadorBluetooth.getState() ) );
 
-        // ---- 2. Pedimos los permisos (si no los_tuvieramos) ----
+        // 2. Pedimos los permisos (si no los_tuvieramos)
         pedirPermisosSiFaltan();
 
-        // ---- 3. Probamos a tener escaner ya ----
+        // 3. Probamos a tener escaner ya
         comprobarBluetoothYEscaner();
 
         Log.d(ETIQUETA_LOG, " inicializarBlueTooth(): termina ");
+    }
 
-    } // ()
-
-    // --------------------------------------------------------------
-    //  registrarReceptorEstadoBluetooth()
-    //
-    //  Se queda escuchando el aviso ACTION_STATE_CHANGED del sistema:
-    //  es lo que nos avisa de que el bluetooth se acaba de encender.
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//   registrarReceptorEstadoBluetooth() -->
+//
+//  Nos avisa de que el Bluetooth se acaba de encender
+// -----------------------------------------------------------------------------------
     private void registrarReceptorEstadoBluetooth() {
-
         if ( this.receptorEstadoBluetooth != null ) {
             return;
         }
 
         this.receptorEstadoBluetooth = new BroadcastReceiver() {
+
+// -----------------------------------------------------------------------------------
+//  DISENO LOGICO   --   METODO
+// -----------------------------------------------------------------------------------
+//                                --------- MainActivity ---------
+//                                |
+//                                |
+//                                |
+//           contexto: Context --> onReceive() -->
+//           intencion: Intent -->
+//                                |
+//                                --------------------------------------
+// -----------------------------------------------------------------------------------
             @Override
             public void onReceive(Context contexto, Intent intencion) {
 
@@ -481,27 +598,18 @@ public class MainActivity extends AppCompatActivity {
         Log.d(ETIQUETA_LOG, " registrarReceptorEstadoBluetooth(): receptor registrado ");
     }
 
-    // --------------------------------------------------------------
-    //  comprobarBluetoothYEscaner()
-    //
-    //  Comprueba que el bluetooth este encendido y pide el escaner.
-    //  Si puede, arranca la busqueda que estuviera pendiente.
-    //
-    //  DEVUELVE true si ya tenemos escaner para escanear, y false si
-    //  todavia no (para que el boton no remente la app).
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//       B <-- comprobarBluetoothYEscaner() -->
+// -----------------------------------------------------------------------------------
     private boolean comprobarBluetoothYEscaner() {
-
-        // ---- 1. Sin adaptador no hay nada que hacer ----
+        // 1. Sin adaptador no hay nada que hacer
         if ( this.elAdaptadorBluetooth == null ) {
             Log.d(ETIQUETA_LOG, " comprobarBluetoothYEscaner(): este movil NO tiene bluetooth");
             avisarAlUsuario( "Este móvil no tiene Bluetooth." );
             return false;
         }
 
-        // ---- 2. ¿Esta encendido de verdad? ----
-        // El bluetooth apagado o justo encendiendose todavia no sirve:
-        // getBluetoothLeScanner() devuelve null.
+        // 2. Comprobar si el Bluetooth está encendido
         int estado = this.elAdaptadorBluetooth.getState();
 
         Log.d(ETIQUETA_LOG, " comprobarBluetoothYEscaner(): estado del bluetooth = " + estado );
@@ -509,17 +617,12 @@ public class MainActivity extends AppCompatActivity {
         if ( estado != BluetoothAdapter.STATE_ON ) {
             Log.d(ETIQUETA_LOG, " comprobarBluetoothYEscaner(): el bluetooth NO esta encendido, "
                     + "asi que no hay escaner todavia" );
-
-            // Que el sistema no puede encenderlo solo (enable() esta
-            // obsoleto): se lo pedimos al usuario con el dialogo del
-            // sistema. Cuando lo encienda, el receptor de arriba llama
-            // otra vez a este metodo y ya tendremos escaner.
             pedirEncenderBluetoothAlUsuario();
 
             return false;
         }
 
-        // ---- 3. Bluetooth encendido: pedimos el escaner ----
+        // 3. Bluetooth encendido: pedimos el escaner
         this.elEscanner = this.elAdaptadorBluetooth.getBluetoothLeScanner();
 
         if ( this.elEscanner == null ) {
@@ -530,23 +633,16 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(ETIQUETA_LOG, " comprobarBluetoothYEscaner(): TENEMOS escaner btle !!!! " );
 
-        // ---- 4. Si el usuario habia pulsado un boton antes, aqui es
-        //      donde se arranca de verdad su busqueda ----
+        // 4. Si el usuario habia pulsado un boton antes, se arranca AHORA
         arrancarBusquedaPendiente();
 
         return true;
     }
 
-    // --------------------------------------------------------------
-    //  pedirEncenderBluetoothAlUsuario()
-    //
-    //  Muestra el dialogo del sistema para encender el bluetooth.
-    //  Si ya se ha pedido y el usuario lo ha rechazado, no se
-    //  vuelve a pedir una y otra vez.
-    // --------------------------------------------------------------
-    @SuppressWarnings("deprecation")   // startActivityForResult sigue funcionando
+// -----------------------------------------------------------------------------------
+//        pedirEncenderBluetoothAlUsuario() -->
+// -----------------------------------------------------------------------------------
     private void pedirEncenderBluetoothAlUsuario() {
-
         if ( this.elAdaptadorBluetooth != null
                 && this.elAdaptadorBluetooth.isEnabled() ) {
             return;         // ya esta encendido, no molestamos
@@ -565,14 +661,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // --------------------------------------------------------------
-    //  arrancarBusquedaPendiente()
-    //
-    //  Si el usuario habia pulsado un boton de buscar mientras el
-    //  bluetooth no estaba listo, la aqui se arranca sola.
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//             arrancarBusquedaPendiente() -->
+//
+//  Por si el usuario había pulsado el botón de buscar mientras el Bluetooth no estaba conectado.
+// -----------------------------------------------------------------------------------
     private void arrancarBusquedaPendiente() {
-
         if ( this.busquedaPendiente == null ) {
             return;         // nadie ha pedido nada
         }
@@ -590,28 +684,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // --------------------------------------------------------------
-    //  avisarAlUsuario()
-    //
-    //  Muestra un mensaje breve en pantalla. Antes, si algo fallaba,
-    //  la app petaba y el usuario no entendia nada.
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//               mensaje: Text --> avisarAlUsuario() -->
+
+// Muestra un mensaje breve en pantalla. Antes, si algo fallaba, bla app petaba y el usuario no entendia nada.
+// -----------------------------------------------------------------------------------
     private void avisarAlUsuario( String mensaje ) {
         Log.d(ETIQUETA_LOG, " avisarAlUsuario(): " + mensaje );
         Toast.makeText( this, mensaje, Toast.LENGTH_LONG ).show();
     }
 
-    // --------------------------------------------------------------
-    //  pedirPermisosSiFaltan()
-    //
-    //  A partir de Android 6 los permisos se piden en tiempo de ejecucion.
-    //  Y a partir de Android 12 el escaneo BLE necesita BLUETOOTH_SCAN
-    //  (y BLUETOOTH_CONNECT para getDevice().getName()), no solo los
-    //  permisos antiguos BLUETOOTH / BLUETOOTH_ADMIN, que ya no sirven
-    //  para nada en un dispositivo moderno.
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//                       pedirPermisosSiFaltan() -->
+//
+// A partir de Android 6 los permisos se piden en tiempo de ejecucion. Y a partir de Android 12 el escaneo
+// BLE necesita BLUETOOTH_SCAN (y BLUETOOTH_CONNECT para getDevice().getName()), no solo los
+// permisos antiguos BLUETOOTH / BLUETOOTH_ADMIN
+// -----------------------------------------------------------------------------------
     private void pedirPermisosSiFaltan() {
-
         java.util.ArrayList<String> losQueFaltan = new java.util.ArrayList<String>();
 
         anadirPermisoSiFalta( losQueFaltan, Manifest.permission.ACCESS_FINE_LOCATION );
@@ -635,23 +725,23 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this,
                 losQueFaltan.toArray( new String[0] ),
                 CODIGO_PETICION_PERMISOS);
+    }
 
-    } // ()
-
-    // --------------------------------------------------------------
-    private void anadirPermisoSiFalta( java.util.ArrayList<String> losQueFaltan,
-                                       String elPermiso ) {
-
+// -----------------------------------------------------------------------------------
+//        losQueFaltan: [Text]
+//             elPermiso: Text
+//                            --> anadirPermisoSiFalta() -->
+// -----------------------------------------------------------------------------------
+    private void anadirPermisoSiFalta( java.util.ArrayList<String> losQueFaltan, String elPermiso ) {
         if ( ContextCompat.checkSelfPermission(this, elPermiso)
                 != PackageManager.PERMISSION_GRANTED ) {
             losQueFaltan.add( elPermiso );
         }
+    }
 
-    } // ()
-
-
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//  savedInstanceState: Bundle --> onCreate() -->
+// -----------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -662,21 +752,22 @@ public class MainActivity extends AppCompatActivity {
         inicializarBlueTooth();
 
         Log.d(ETIQUETA_LOG, " onCreate(): termina ");
+    }
 
-    } // onCreate()
-
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
+// -----------------------------------------------------------------------------------
+//              requestCode: N
+//         permissions: [Text]
+//           grantResults: [Z]
+//                            --> onRequestPermissionsResult() -->
+// -----------------------------------------------------------------------------------
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         switch (requestCode) {
             case CODIGO_PETICION_PERMISOS:
 
-                // ---- Comprobamos TODOS los permisos, no solo el primero:
-                //      si falta el permiso de escaneo, startScan() lanzaria
-                //      SecurityException. ----
+                //  Comprobamos TODOS los permisos, no solo el primero:
+                //  si falta el permiso de escaneo, startScan() lanzaria SecurityException.
                 boolean concedidosTodos = ( grantResults.length > 0 );
 
                 for ( int i = 0; i < grantResults.length; i++ ) {
@@ -689,9 +780,8 @@ public class MainActivity extends AppCompatActivity {
 
                     Log.d(ETIQUETA_LOG, " onRequestPermissionResult(): permisos concedidos  !!!!");
 
-                    // ---- Al conceder los permisos hay que volver a pedir
-                    //      el escaner: sin permiso de escaneo, el sistema
-                    //      no nos lo da. ----
+                    //  Al conceder los permisos hay que volver a pedir
+                    //  el escaner: sin permiso de escaneo, el sistema no nos lo da.
                     comprobarBluetoothYEscaner();
 
                 }  else {
@@ -703,16 +793,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return;
         }
-        // Other 'case' lines to check for other
-        // permissions this app might request.
-    } // ()
+    }
 
-    // --------------------------------------------------------------
-    //  onActivityResult()
-    //
-    //  Recoge el resultado del dialogo con el que se le ha pedido al
-    //  usuario que encienda el bluetooth.
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//              requestCode: N
+//               resultCode: N
+//                data: Intent
+//                            --> onActivityResult() -->
+//  Recoge el resultado del dialogo con el que se le ha pedido al usuario que encienda el bluetooth.
+// -----------------------------------------------------------------------------------
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -735,14 +824,12 @@ public class MainActivity extends AppCompatActivity {
 
             avisarAlUsuario( "Enciende el Bluetooth y vuelve a pulsar el botón." );
         }
-    } // ()
+    }
 
-    // --------------------------------------------------------------
-    //  onDestroy()
-    //
-    //  Hay que quitar el receptor del bluetooth y parar el escaneo,
-    //  o la app deja el bluetooth encendido y "colgada" al salir.
-    // --------------------------------------------------------------
+// -----------------------------------------------------------------------------------
+//   onDestroy() -->
+//   Hay que quitar el receptor del bluetooth y parar el escaneo, o la app deja el bluetooth encendido y "colgada" al salir.
+// -----------------------------------------------------------------------------------
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -757,11 +844,5 @@ public class MainActivity extends AppCompatActivity {
             }
             this.receptorEstadoBluetooth = null;
         }
-    } // ()
-
-} // class
-// --------------------------------------------------------------
-// --------------------------------------------------------------
-// --------------------------------------------------------------
-// --------------------------------------------------------------
-
+    }
+}
