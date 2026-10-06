@@ -7,7 +7,7 @@
 
 
 // ===========================================================================
-//  DISEÑO LÓGICO  --  Publicador.h
+//  DISEÑO   --  Publicador.h
 // ===========================================================================
 //
 //
@@ -49,7 +49,7 @@
 class Publicador {
 
 private:
-	const int16_t MINOR_MANUAL=100;
+	const int16_t MINOR_MANUAL=499;
 	const int8_t TX_POWER= 4;
 
   uint8_t beaconUUID[16] = { 

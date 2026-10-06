@@ -119,5 +119,3 @@ class ServidorREST
         echo json_encode($cuerpo, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 }
-
-// () Fin de la clase.

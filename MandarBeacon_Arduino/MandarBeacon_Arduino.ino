@@ -2,7 +2,7 @@
 //  Minerva Maravilla Vidaurre
 //  05/10/2026
 // ===========================================================================
-//  DISEÑO LÓGICO  --  MandarBeacon_Arduino.ino
+//  DISEÑO   --  MandarBeacon_Arduino.ino
 // ===========================================================================
 //
 //      elPublicador -> Publicador  traduce una medida a un anuncio iBeacon
