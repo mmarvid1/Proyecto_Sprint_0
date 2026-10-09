@@ -160,7 +160,7 @@ try {
                 //      solo miramos el primero, getInputStream() lanza
                 //      IOException y nos quedamos sin el mensaje de error
                 //      que devuelve el servidor (por ejemplo el
-                //      {"error":"falta el campo 'minor'"}).
+                //      {"error":"falta el campo 'valor'"}).
                 InputStream is = ( rc >= 200 && rc < 300 )
                         ? connection.getInputStream()
                         : connection.getErrorStream();

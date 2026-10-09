@@ -2,7 +2,7 @@
 -- FICHERO : verificar_bbdd.sql
 -- PROPOSITO: Script de prueba de la base de datos "mediciones_db".
 --            Comprueba, en orden y con sus comentarios, que la tabla
---            existe, que tiene las 7 columnas del diseño en ese orden,
+--            existe, que tiene las 5 columnas del diseño en ese orden,
 --            que hay 3 filas de ejemplo y que su contenido es correcto.
 -- USO      : Sprint 0 - Proyecto Beacon. Se ejecuta DESPUES de
 --            crear_bbdd.sql y sirve para demostrar que la BBDD
@@ -27,13 +27,12 @@ WHERE TABLE_SCHEMA = 'mediciones_db'
 
 
 -- =====================================================================
--- COMPROBACION 2: existen las 7 columnas, en el orden del diseno
+-- COMPROBACION 2: existen las 5 columnas, en el orden del diseno
 -- =====================================================================
--- Esperado: 7 filas en este orden:
---   1 id | 2 uuid | 3 major | 4 minor | 5 tx_power
---   6 nombre_emisora | 7 fecha_hora
+-- Esperado: 5 filas en este orden:
+--   1 id | 2 tipo_medicion | 3 valor | 4 nombre_emisora | 5 fecha_hora
 -- ORDINAL_POSITION es la posicion real de cada columna dentro de la tabla.
-SELECT 'COMPROBACION 2: las 7 columnas en orden' AS comprobacion;
+SELECT 'COMPROBACION 2: las 5 columnas en orden' AS comprobacion;
 
 SELECT ORDINAL_POSITION AS posicion,
        COLUMN_NAME     AS columna,
@@ -65,17 +64,15 @@ FROM mediciones;
 -- =====================================================================
 -- Muestra TODAS las filas ordenadas de mas reciente a mas antigua, que
 -- es el mismo orden que devuelve recuperarMedicion() del backend.
--- Esperado: 3 filas con minor = 1234, uuid = EPSG-GTI-PROY-3A
+-- Esperado: 3 filas con tipo_medicion = 'MANUAL', valor = 1234
 --           y nombre_emisora = Minerva_ELBACON.
--- El HAVING anade una comprobacion extra: si minor != 1234 o falta el
--- uuid o la emisora, no debe salir ninguna fila con el OK.
+-- El CASE anade una comprobacion extra: si valor != 1234 o falta el tipo
+-- o la emisora, no debe salir el OK.
 SELECT 'COMPROBACION 4: contenido correcto' AS comprobacion;
 
 SELECT id,
-       uuid,
-       major,
-       minor,
-       tx_power,
+       tipo_medicion,
+       valor,
        nombre_emisora,
        fecha_hora
 FROM mediciones
@@ -87,8 +84,8 @@ SELECT CASE
        END AS valoracion,
        COUNT(*) AS filas_correctas
 FROM mediciones
-WHERE minor          = 1234
-  AND uuid           = 'EPSG-GTI-PROY-3A'
+WHERE tipo_medicion  = 'MANUAL'
+  AND valor          = 1234
   AND nombre_emisora = 'Minerva_ELBACON';
 
 -- () Fin comprobacion 4.
@@ -111,11 +108,11 @@ WHERE minor          = 1234
 --        2) crear_bbdd.sql      -> se crea mediciones_db.mediciones
 --        3) verificar_bbdd.sql  -> las 4 comprobaciones deben pasar
 --   3. En la izquierda comprueba que mediciones_db tiene la tabla
---      "mediciones" con las 7 columnas y las 3 filas.
+--      "mediciones" con las 5 columnas y las 3 filas.
 --
 -- Resultado esperado de verificar_bbdd.sql:
 --   COMPROBACION 1 -> mediciones
---   COMPROBACION 2 -> 7 filas en el orden del diseno
+--   COMPROBACION 2 -> 5 filas en el orden del diseno
 --   COMPROBACION 3 -> total_filas = 3
 --   COMPROBACION 4 -> 3 filas, de mas reciente a mas antigua,
 --                     valoracion = "OK: las 3 filas tienen los valores correctos"

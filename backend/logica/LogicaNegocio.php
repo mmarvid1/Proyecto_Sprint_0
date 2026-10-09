@@ -8,7 +8,7 @@
 //            servidor REST y la base de datos: el servidor REST nunca
 //            escribe SQL, solo llama a los 2 metodos de esta clase.
 // REGLA    : Todas las consultas usan sentencias preparadas con
-//            parametros (:minor, :uuid, ...). Nunca se concatena ningun
+//            parametros (:valor, :nombre_emisora, ...). Nunca se concatena ningun
 //            valor dentro del SQL.
 // =====================================================================
 
@@ -16,9 +16,9 @@
 require_once __DIR__ . '/../config/config.php';
 
 // ---- 2. Rango de cada campo numerico segun el tipo de la tabla ----
-define('LN_RANGE_MINOR', [-32768, 32767]);   // SMALLINT SIGNED
-define('LN_RANGE_MAJOR', [-32768, 32767]);   // SMALLINT SIGNED
-define('LN_RANGE_TX_POWER', [-128, 127]);    // TINYINT (int8)
+// "valor" es SMALLINT SIGNED. "tipo_medicion" es texto (VARCHAR), asi
+// que no tiene rango numerico: se valida como cadena no vacia.
+define('LN_RANGE_VALOR', [-32768, 32767]);          // SMALLINT SIGNED
 
 // ---- 3. Clase LogicaNegocio ----
 class LogicaNegocio
@@ -28,46 +28,42 @@ class LogicaNegocio
     // PROPOSITO: Valida la Medicion recibida, la inserta en la tabla
     //            "mediciones" y devuelve la Medicion ya completa, con
     //            el "id" y la "fecha_hora" reales que puso la BBDD.
-    // PARAM.   : array $medicion - datos del POST (minor obligatorio,
+    // PARAM.   : array $medicion - datos del POST (valor obligatorio,
     //            el resto de metadatos opcionales).
     // RETORNA  : array - la Medicion completa tal como queda en la BBDD.
-    // LANZA    : InvalidArgumentException si "minor" falta o no es valido.
+    // LANZA    : InvalidArgumentException si "valor" falta o no es valido.
     // () ----------------------------------------------------------------
     public function guardarMedicion(array $medicion): array
     {
-        // ---- 1. Validamos el campo obligatorio "minor" ----
-        if (!array_key_exists('minor', $medicion) || $medicion['minor'] === null || $medicion['minor'] === '') {
-            throw new InvalidArgumentException('falta minor');
+        // ---- 1. Validamos el campo obligatorio "valor" ----
+        if (!array_key_exists('valor', $medicion) || $medicion['valor'] === null || $medicion['valor'] === '') {
+            throw new InvalidArgumentException('falta valor');
         }
 
-        // "minor" debe ser un entero dentro del rango SMALLINT SIGNED y
+        // "valor" debe ser un entero dentro del rango SMALLINT SIGNED y
         // ser un valor positivo (una medicion valida siempre lo es).
-        $minor = $medicion['minor'];
-        if (!$this->esEnteroValido($minor) || !$this->estaEnRango($minor, LN_RANGE_MINOR) || $minor <= 0) {
-            throw new InvalidArgumentException('minor inválido');
+        $valor = $medicion['valor'];
+        if (!$this->esEnteroValido($valor) || !$this->estaEnRango($valor, LN_RANGE_VALOR) || $valor <= 0) {
+            throw new InvalidArgumentException('valor inválido');
         }
-        $minor = (int) $minor;
+        $valor = (int) $valor;
 
         // ---- 2. Validamos los metadatos opcionales ----
         // Si vienen, deben tener el tipo correcto; si no vienen, se
         // guardan como NULL porque la BBDD los admite nulos.
-        $major = $this->opcionalEntero($medicion, 'major', LN_RANGE_MAJOR, 'major inválido');
-        // tx_power admite negativos: es el int8 de potencia de emision.
-        $txPower = $this->opcionalEntero($medicion, 'tx_power', LN_RANGE_TX_POWER, 'tx_power inválido');
-        $uuid = $this->opcionalCadena($medicion, 'uuid');
+        // "tipo_medicion" es texto: CO2, TEMPERATURA, RUIDO o MANUAL.
+        $tipoMedicion = $this->opcionalCadena($medicion, 'tipo_medicion');
         $nombreEmisora = $this->opcionalCadena($medicion, 'nombre_emisora');
 
         // ---- 3. Insertamos con sentencia preparada ----
         // "id" y "fecha_hora" NO se insertan: los pone la propia BBDD.
         $pdo = conectarBD();
-        $sql = 'INSERT INTO mediciones (uuid, major, minor, tx_power, nombre_emisora)
-                VALUES (:uuid, :major, :minor, :tx_power, :nombre_emisora)';
+        $sql = 'INSERT INTO mediciones (tipo_medicion, valor, nombre_emisora)
+                VALUES (:tipo_medicion, :valor, :nombre_emisora)';
         $sentencia = $pdo->prepare($sql);
         $sentencia->execute([
-            ':uuid'           => $uuid,
-            ':major'          => $major,
-            ':minor'          => $minor,
-            ':tx_power'       => $txPower,
+            ':tipo_medicion'  => $tipoMedicion,
+            ':valor'          => $valor,
             ':nombre_emisora' => $nombreEmisora,
         ]);
 
@@ -93,7 +89,7 @@ class LogicaNegocio
         // Orden descendente por fecha y, a igualdad de fecha, por id
         // descendente: asi lo mas reciente siempre aparece primero.
         $pdo = conectarBD();
-        $sql = 'SELECT id, uuid, major, minor, tx_power, nombre_emisora, fecha_hora
+        $sql = 'SELECT id, tipo_medicion, valor, nombre_emisora, fecha_hora
                 FROM mediciones
                 ORDER BY fecha_hora DESC, id DESC';
         $sentencia = $pdo->prepare($sql);
@@ -114,7 +110,7 @@ class LogicaNegocio
     private function leerMedicionPorId(int $id): array
     {
         $pdo = conectarBD();
-        $sql = 'SELECT id, uuid, major, minor, tx_power, nombre_emisora, fecha_hora
+        $sql = 'SELECT id, tipo_medicion, valor, nombre_emisora, fecha_hora
                 FROM mediciones
                 WHERE id = :id';
         $sentencia = $pdo->prepare($sql);
@@ -164,32 +160,8 @@ class LogicaNegocio
     }
 
     // =================================================================
-    // Metodo: opcionalEntero()  (auxiliar, privado)
-    // PROPOSITO: Valida un metadato numerico opcional. Si no viene,
-    //            devuelve null (la BBDD lo admite); si viene, valida
-    //            que sea entero y que quepa en el rango de su columna.
-    // PARAM.   : array $medicion - datos recibidos.
-    //            string $campo - nombre del campo ("major", "tx_power").
-    //            array $rango - rango del tipo SQL de esa columna.
-    //            string $error - mensaje si el valor no es valido.
-    // RETORNA  : int|null - el entero, o null si el campo no viene.
-    // () ----------------------------------------------------------------
-    private function opcionalEntero(array $medicion, string $campo, array $rango, string $error): ?int
-    {
-        // El campo no vino: es opcional, se guarda como NULL.
-        if (!array_key_exists($campo, $medicion) || $medicion[$campo] === null || $medicion[$campo] === '') {
-            return null;
-        }
-        // Vino: tiene que ser un entero dentro del rango de su columna.
-        if (!$this->esEnteroValido($medicion[$campo]) || !$this->estaEnRango($medicion[$campo], $rango)) {
-            throw new InvalidArgumentException($error);
-        }
-        return (int) $medicion[$campo];
-    }
-
-    // =================================================================
     // Metodo: opcionalCadena()  (auxiliar, privado)
-    // PROPOSITO: Valida un metadato de texto opcional (uuid o
+    // PROPOSITO: Valida un metadato de texto opcional (tipo_medicion o
     //            nombre_emisora). Si no viene, devuelve null; si viene,
     //            exige que sea una cadena no vacia.
     // PARAM.   : array $medicion - datos recibidos.

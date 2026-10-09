@@ -43,5 +43,5 @@ WHERE SCHEMA_NAME = 'mediciones_db';
 --        2) crear_bbdd.sql
 --        3) verificar_bbdd.sql
 --   3. En la izquierda comprueba que mediciones_db tiene la tabla
---      "mediciones" con las 7 columnas y las 3 filas de ejemplo.
+--      "mediciones" con las 5 columnas y las 3 filas de ejemplo.
 -- =====================================================================

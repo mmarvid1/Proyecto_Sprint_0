@@ -36,17 +36,16 @@ function mockearFetch(respuesta) {
 // Prueba 1: resuelve segun lo que devuelve el servidor
 // =====================================================================
 comprobar('resuelve el listado y limpia los tipos de cada Medicion', async function () {
-    // Respuesta tipica de MariaDB: los numeros pueden venir como texto.
+    // Respuesta tipica de MariaDB: "valor" puede venir como texto;
+    // "tipo_medicion" es texto (CO2/TEMPERATURA/RUIDO/MANUAL).
     mockearFetch({
         ok: true,
         status: 200,
         json: async () => ({
             mediciones: [{
                 id: 1,
-                uuid: 'EPSG-GTI-PROY-3A',
-                major: '2816',
-                minor: '1234',
-                tx_power: '4',
+                tipo_medicion: 'MANUAL',
+                valor: '1234',
                 nombre_emisora: 'Minerva_ELBACON',
                 fecha_hora: '2026-09-28 09:00:00'
             }]
@@ -55,11 +54,9 @@ comprobar('resuelve el listado y limpia los tipos de cada Medicion', async funct
 
     return LogicaFake.recuperarMedicion().then(function (mediciones) {
         igual(mediciones.length, 1, 'numero de mediciones');
-        igual(mediciones[0].minor, 1234, 'minor como numero');
-        igual(mediciones[0].major, 2816, 'major como numero');
-        igual(mediciones[0].tx_power, 4, 'tx_power como numero');
+        igual(mediciones[0].tipo_medicion, 'MANUAL', 'tipo_medicion como cadena');
+        igual(mediciones[0].valor, 1234, 'valor como numero');
         igual(mediciones[0].nombre_emisora, 'Minerva_ELBACON', 'nombre_emisora');
-        igual(mediciones[0].uuid, 'EPSG-GTI-PROY-3A', 'uuid');
         igual(mediciones[0].fecha_hora, '2026-09-28 09:00:00', 'fecha_hora');
     });
 });

@@ -33,10 +33,8 @@ import com.example.mmarvid1.beaconapp.PeticionarioREST;
 //                               |
 //                               |
 //       nombre_emisora: Text --> construirJSON() <--
-//                 uuid: Text -->
-//                 elMajor: Z -->
-//                 elMinor: Z -->
-//               elTxPower: Z -->
+//        elTipoMedicion: Text -->
+//                elValor: Z -->
 //           cuerpoJSON: Text <--
 //                               |
 //                               --------------------------------------
@@ -44,7 +42,7 @@ import com.example.mmarvid1.beaconapp.PeticionarioREST;
 
 public class LogicaFake {
 
-    public static final String URL_SERVIDOR = "http://10.215.29.138/Proyecto_Sprint0/backend/public/mediciones";
+    public static final String URL_SERVIDOR = "http://192.168.18.178/Proyecto_Sprint0/backend/public/mediciones";
     private static final String ETIQUETA_LOG = ">>>>";
     public static final String ETIQUETA_LOG_PRUEBAS = ">>>>-pruebas";
     private PeticionarioREST elCliente;
@@ -72,12 +70,10 @@ public class LogicaFake {
         // 1. Log de entrada: se ve que medicion ha entrado y de donde
         Log.d(ETIQUETA_LOG, " guardarMedicion(): me han pasado " + medicion );
 
-        // 2. Montar el JSON con los 5 datos de la medicion
+        // 2. Montar el JSON con los 3 datos de la medicion
         String cuerpoJSON = construirJSON(medicion.getNombreEmisora(),
-                medicion.getUuid(),
-                medicion.getMajor(),
-                medicion.getMinor(),
-                medicion.getTxPower());
+                medicion.getTipoMedicion(),
+                medicion.getValor());
 
         Log.d(ETIQUETA_LOG, " guardarMedicion(): JSON=" + cuerpoJSON);
         Log.d(ETIQUETA_LOG, " guardarMedicion(): URL=" + URL_SERVIDOR);
@@ -104,19 +100,23 @@ public class LogicaFake {
 
 // -----------------------------------------------------------------------------------
 //       nombre_emisora: Text
-//                 uuid: Text
-//                 elMajor: Z
-//                 elMinor: Z
-//               elTxPower: Z
+//        elTipoMedicion: Text
+//                elValor: Z
 //                          --> construirJSON() <--
 //           cuerpoJSON: Text <--
+//  "tipo_medicion" va como cadena (CO2/TEMPERATURA/RUIDO/MANUAL); si es
+//  null se manda null, porque el backend tambien lo admite.
 // -----------------------------------------------------------------------------------
-    protected String construirJSON(String nombre_emisora, String uuid, int elMajor, int elMinor, int elTxPower) {
-        return "{ \"minor\": " + elMinor +
-                ", \"uuid\": \"" + uuid + "\"" +
-                ", \"major\": " + elMajor +
-                ", \"tx_power\": " + elTxPower +
-                ", \"nombre_emisora\": \"" + nombre_emisora + "\" }";
+    protected String construirJSON(String nombre_emisora, String elTipoMedicion, int elValor) {
+        String tipoJSON = ( elTipoMedicion == null )
+                ? "null"
+                : "\"" + elTipoMedicion + "\"";
+        String emisoraJSON = ( nombre_emisora == null )
+                ? "null"
+                : "\"" + nombre_emisora + "\"";
+        return "{ \"tipo_medicion\": " + tipoJSON +
+                ", \"valor\": " + elValor +
+                ", \"nombre_emisora\": " + emisoraJSON + " }";
 
     }
 }

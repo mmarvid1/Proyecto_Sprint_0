@@ -35,10 +35,10 @@ class ServidorREST
             return;
         }
 
-        // ---- 2. El campo "minor" es obligatorio ----
+        // ---- 2. El campo "valor" es obligatorio ----
         // Aqui filtramos el formato; el rango lo valida la logica.
-        if (!array_key_exists('minor', $datos)) {
-            $this->responder(400, ['error' => "falta el campo 'minor'"]);
+        if (!array_key_exists('valor', $datos)) {
+            $this->responder(400, ['error' => "falta el campo 'valor'"]);
             return;
         }
 
@@ -47,7 +47,7 @@ class ServidorREST
             $logica = new LogicaNegocio();
             $medicion = $logica->guardarMedicion($datos);
         } catch (InvalidArgumentException $e) {
-            // Datos invalidos (minor vacio, fuera de rango, etc.): 400.
+            // Datos invalidos (valor vacio, fuera de rango, etc.): 400.
             $this->responder(400, ['error' => $e->getMessage()]);
             return;
         } catch (PDOException $e) {

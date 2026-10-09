@@ -72,15 +72,15 @@ var LogicaFake = {
         }
 
         // ---- 4. Limpiamos cada Medicion ----
-        // minor, major y tx_power a Number (la BBDD puede devolverlos
-        // como texto); uuid, nombre_emisora y fecha_hora a cadena.
+        // valor a Number (la BBDD puede devolverlo como texto);
+        // tipo_medicion, nombre_emisora y fecha_hora a cadena.
         const mediciones = datos.mediciones.map(function (m) {
             return {
                 id:             m.id,
-                uuid:           m.uuid === null || m.uuid === undefined ? null : String(m.uuid),
-                major:          m.major === null || m.major === undefined ? null : Number(m.major),
-                minor:          Number(m.minor),
-                tx_power:       m.tx_power === null || m.tx_power === undefined ? null : Number(m.tx_power),
+                tipo_medicion:  m.tipo_medicion === null || m.tipo_medicion === undefined
+                                    ? null : String(m.tipo_medicion),
+                valor:          m.valor === null || m.valor === undefined
+                                    ? null : Number(m.valor),
                 nombre_emisora: m.nombre_emisora === null || m.nombre_emisora === undefined
                                     ? null : String(m.nombre_emisora),
                 fecha_hora:     m.fecha_hora === null || m.fecha_hora === undefined

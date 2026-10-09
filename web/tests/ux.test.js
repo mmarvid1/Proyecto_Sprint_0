@@ -50,25 +50,26 @@ titulo('ux.js - Pintado de la tabla y estados');
 // =====================================================================
 // Prueba 1: pinta un historial con los campos de la medicion
 // =====================================================================
-comprobar('pinta la tabla con minor, nombre_emisora y fecha en espanol', function () {
+comprobar('pinta la tabla con tipo_medicion, valor, nombre_emisora y fecha en espanol', function () {
     preparar();
     UX.pintarMediciones([
-        { id: 1, uuid: 'EPSG-GTI-PROY-3A', major: 2816, minor: 1234,
-          tx_power: 4, nombre_emisora: 'Minerva_ELBACON',
+        { id: 1, tipo_medicion: 'MANUAL', valor: 1234,
+          nombre_emisora: 'Minerva_ELBACON',
           fecha_hora: '2026-09-28 09:00:00' }
     ]);
 
     const html = UX.contenedor.innerHTML;
     cierto(html.indexOf('<table') !== -1, 'pinta una tabla');
     contiene(html, '1234');                                 // el valor medido
+    contiene(html, 'MANUAL');                               // el tipo de medicion
     contiene(html, 'Minerva_ELBACON');                     // la emisora
     contiene(html, '28/09/2026');                           // fecha en espanol
-    contiene(html, 'EPSG-GTI-PROY-3A');                     // el uuid
-    // Los 7 campos del diseño tienen que estar pintados, cada uno en
-    // su celda con su clase "medicion-<campo>".
-    for (const col of ['id', 'uuid', 'major', 'minor', 'tx_power',
+    // Los 5 campos del diseño tienen que estar pintados, cada uno en
+    // su celda con su clase "medicion-<campo>" (el valor puede llevar
+    // ademas su clase de color: "medicion-valor valor-alto").
+    for (const col of ['id', 'tipo_medicion', 'valor',
                        'nombre_emisora', 'fecha_hora']) {
-        contiene(html, 'class="medicion-' + col + '"');
+        contiene(html, 'class="medicion-' + col);
     }
     // La tabla no lleva ningun boton: el refresco es automatico.
     igual(html.toLowerCase().indexOf('<button'), -1, 'no hay ningun boton');
@@ -129,7 +130,7 @@ comprobar('recargarMediciones pide los datos a LogicaFake y los pinta', async fu
     // Sustituimos la peticion real por una respuesta ya resuelta.
     globalThis.LogicaFake = {
         recuperarMedicion: async function () {
-            return [{ id: 9, uuid: null, major: null, minor: 1234, tx_power: null,
+            return [{ id: 9, tipo_medicion: null, valor: 1234,
                       nombre_emisora: 'Minerva_ELBACON',
                       fecha_hora: '2026-09-28 09:00:00' }];
         }

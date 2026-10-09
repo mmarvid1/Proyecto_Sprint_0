@@ -4,7 +4,7 @@
 //            llega de LogicaFake.recuperarMedicion() y se refresca solo,
 //            sin ningun boton que pulsar.
 // USO      : Sprint 0 - Proyecto Beacon. Pinta una tabla con TODOS los
-//            campos de cada medicion (id, uuid, major, minor, tx_power,
+//            campos de cada medicion (id, tipo_medicion, valor,
 //            nombre_emisora, fecha_hora), de la mas reciente a la mas
 //            antigua, y avisa de los estados cargando / vacio / error.
 // REGLA    : La UX solo pinta. No hace peticiones: de eso se encarga
@@ -86,7 +86,7 @@ var UX = {
         // =================================================================
     // Funcion: claseValor()
     // PROPOSITO: Decide el color del valor medido segun su gravedad.
-    // PARAM.   : number valor - el minor (valor) de la medicion.
+    // PARAM.   : number valor - el valor de la medicion (campo "valor").
     // RETORNA  : string - clase CSS ('valor-alto', 'valor-medio' o '').
     // () ----------------------------------------------------------------
     claseValor: function (valor) {
@@ -119,13 +119,11 @@ var UX = {
         console.log('>>>> [UX] pinto', mediciones.length, 'mediciones');
 
         // ---- 2. Cabecera de la tabla: TODOS los campos ----
-        const columnas = ['id', 'uuid', 'major', 'minor', 'tx_power', 'nombre_emisora', 'fecha_hora'];
+        const columnas = ['id', 'tipo_medicion', 'valor', 'nombre_emisora', 'fecha_hora'];
         const cabeceras = {
             id: 'id',
-            uuid: 'uuid',
-            major: 'major',
-            minor: 'minor (valor)',
-            tx_power: 'tx_power',
+            tipo_medicion: 'tipo_medicion',
+            valor: 'valor',
             nombre_emisora: 'nombre_emisora',
             fecha_hora: 'fecha_hora'
         };
@@ -147,10 +145,10 @@ var UX = {
                 // Un campo nulo (metadato opcional) se muestra como "-".
                 // data-etiqueta lleva el nombre del campo: en movil el
                 // CSS lo usa como etiqueta, porque las columnas se apilan.
-                                // El minor lleva ademas la clase de color segun su valor.
+                                // El valor lleva ademas la clase de color segun su valor.
                 let clases = 'medicion-' + campo;
-                if (campo === 'minor') {
-                    clases += this.claseValor(m.minor);
+                if (campo === 'valor') {
+                    clases += this.claseValor(m.valor);
                 }
 
                 html += '<td class="' + clases + '" data-etiqueta="'

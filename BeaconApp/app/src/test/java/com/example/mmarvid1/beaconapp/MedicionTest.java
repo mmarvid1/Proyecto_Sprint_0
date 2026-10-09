@@ -39,7 +39,7 @@ import org.junit.Test;
 //      los manda la libreria BLEBeacon de Adafruit (esa hace __swap16 a proposito).
 //   2. Que el "txPower", que es un byte CON signo, sale negativo cuando toca.
 //   3. Que una Medicion construida desde una trama iBeacon entera da los valores
-//      que emite el Arduino: minor 1234 y tx_power 4.
+//      que emite el Arduino: valor 1234 y tipo_medicion CO2 (major 0x0BA3 -> 11).
 //
 //  Como se ejecutan:   cd BeaconApp   y   ./gradlew test
 // -----------------------------------------------------------------------------------
@@ -161,10 +161,8 @@ public class MedicionTest {
         Medicion laMedicion = new Medicion( "Minerva_ELBACON", tib );
 
         assertEquals("Minerva_ELBACON", laMedicion.getNombreEmisora());
-        assertEquals(elUuid, laMedicion.getUuid());
-        assertEquals(2979, laMedicion.getMajor());
-        assertEquals(1234, laMedicion.getMinor());
-        assertEquals(4, laMedicion.getTxPower());
+        assertEquals("CO2", laMedicion.getTipoMedicion());   // major 0x0B00 = CO2
+        assertEquals(1234, laMedicion.getValor());
     } // ()
 
 } // class

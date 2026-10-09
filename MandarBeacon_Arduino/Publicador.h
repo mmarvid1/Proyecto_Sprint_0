@@ -11,7 +11,7 @@
 // ===========================================================================
 //
 //
-//     MedicionesID = { CO2 = 11, TEMPERATURA = 12, RUIDO = 13 }
+//     MedicionesID = { CO2 = 11, TEMPERATURA = 12, RUIDO = 13, MANUAL = 14 }
 //
 //
 //                 --------- Publicador ------------------
@@ -40,6 +40,11 @@
 // contador: N
 // tiempoEspera: Z
 //             --> publicarTemperatura() -->
+//                 |
+//                 |
+// contador: N
+// tiempoEspera: Z
+//             --> publicarManual() -->
 //                 |
 //                 -------------------------------------
 //
@@ -74,7 +79,8 @@ public:
   enum MedicionesID  {
 	CO2 = 11,
 	TEMPERATURA = 12,
-	RUIDO = 13
+	RUIDO = 13,
+	MANUAL = 14
   };
 
   // ............................................................
@@ -106,8 +112,8 @@ public:
 	uint16_t major = (MedicionesID::CO2 << 8) + contador;
 	(*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID, 
 											major,
-											MINOR_MANUAL, // minor
-											TX_POWER // rssi
+											valorCO2, // minor
+											(*this).RSSI // rssi
 									);
 
 	// 2. esperamos el tiempo que nos digan
@@ -131,6 +137,27 @@ public:
 											major,
 											valorTemperatura, // minor
 											(*this).RSSI // rssi
+									);
+	esperar( tiempoEspera );
+
+	(*this).laEmisora.detenerAnuncio();
+  }
+
+  // ............................................................
+  //  contador: N
+  //  tiempoEspera: Z
+  //                  --> publicarManual() -->
+  //
+  //  Medicion introducida a mano (todavia sin sensor). Viaja con el
+  //  tipo MANUAL (14) en el byte alto de 'major'. El minor usa la
+  //  constante MINOR_MANUAL (499), igual que publicarCO2.
+  // ............................................................
+  void publicarManual( uint8_t contador, long tiempoEspera ) {
+	uint16_t major = (MedicionesID::MANUAL << 8) + contador;
+	(*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID, 
+											major,
+											MINOR_MANUAL, // minor
+											TX_POWER // rssi
 									);
 	esperar( tiempoEspera );
 

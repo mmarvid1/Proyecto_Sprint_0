@@ -16,11 +16,9 @@ import org.junit.Test;
 //                        | // Cada metodo devuelve B: true = la comprobacion
 //                        | // se cumple.
 //                        |
-//                        | UUID_PRUEBA: Text     (const)
 //                        | NOMBRE_PRUEBA: Text     (const)
-//                        | MAJOR_PRUEBA: N   (const)
-//                        | MINOR_PRUEBA: N   (const)
-//                        | TXPOWER_PRUEBA: N   (const)
+//                        | TIPOMEDICION_PRUEBA: Text   (const)
+//                        | VALOR_PRUEBA: N   (const)
 //                        |
 //                        |
 //                   B <-- urlServidorTerminaEnMediciones() <--
@@ -40,7 +38,7 @@ import org.junit.Test;
 //  Que comprueban:
 //   1. Que URL_SERVIDOR termina en "/mediciones".
 //   2. Que construirJSON() monta el JSON con los valores del proyecto.
-//   3. Que los numeros van SIN comillas y SIN ".0" (son enteros, no texto).
+//   3. Que "valor" va SIN comillas y SIN ".0" (es un entero, no texto).
 //
 //  Como se ejecutan:   cd BeaconApp   y   ./gradlew test
 // -----------------------------------------------------------------------------------
@@ -49,11 +47,9 @@ public class LogicaFakeTest {
     // ------------------------------------------------------------------
     //  Valores de ejemplo del proyecto. Son los mismos que emite el Arduino.
     // ------------------------------------------------------------------
-    private static final String UUID_PRUEBA = "EPSG-GTI-PROY-3A";
     private static final String NOMBRE_PRUEBA = "Minerva_ELBACON";
-    private static final int MAJOR_PRUEBA = 2816;
-    private static final int MINOR_PRUEBA = 1234;
-    private static final int TXPOWER_PRUEBA = 4;
+    private static final String TIPOMEDICION_PRUEBA = "MANUAL";
+    private static final int VALOR_PRUEBA = 1234;
 
     // ------------------------------------------------------------------
     //  PRUEBA 1: la URL del servidor acaba en el recurso "/mediciones".
@@ -78,7 +74,7 @@ public class LogicaFakeTest {
     } // ()
 
     // ------------------------------------------------------------------
-    //  PRUEBA 2: el JSON trae los 5 datos con los valores del proyecto.
+    //  PRUEBA 2: el JSON trae los 3 datos con los valores del proyecto.
     // ------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------------
@@ -98,18 +94,15 @@ public class LogicaFakeTest {
         LogicaFake laLogica = new LogicaFake(null);
 
         String elJSON = laLogica.construirJSON(NOMBRE_PRUEBA,
-                UUID_PRUEBA,
-                MAJOR_PRUEBA,
-                MINOR_PRUEBA,
-                TXPOWER_PRUEBA);
+                TIPOMEDICION_PRUEBA,
+                VALOR_PRUEBA);
 
-        // ---- el "minor" que mandamos y que el servidor guarda -------------
-        assertTrue("falta \"minor\": 1234  en -> " + elJSON, elJSON.contains("\"minor\": 1234"));
+        // ---- el "valor" que mandamos y que el servidor guarda -------------
+        assertTrue("falta \"valor\": 1234  en -> " + elJSON, elJSON.contains("\"valor\": 1234"));
 
-        // ---- el resto de campos del beacon --------------------------------
-        assertTrue("falta el uuid en -> " + elJSON, elJSON.contains("\"uuid\": \"" + UUID_PRUEBA + "\""));
-        assertTrue("falta \"major\": 2816 en -> " + elJSON, elJSON.contains("\"major\": 2816"));
-        assertTrue("falta \"tx_power\": 4 en -> " + elJSON, elJSON.contains("\"tx_power\": 4"));
+        // ---- el resto de campos de la medicion ----------------------------
+        assertTrue("falta \"tipo_medicion\": \"MANUAL\" en -> " + elJSON,
+                elJSON.contains("\"tipo_medicion\": \"" + TIPOMEDICION_PRUEBA + "\""));
         assertTrue("falta el nombre_emisora en -> " + elJSON,
                 elJSON.contains("\"nombre_emisora\": \"" + NOMBRE_PRUEBA + "\""));
 
@@ -136,20 +129,14 @@ public class LogicaFakeTest {
         LogicaFake laLogica = new LogicaFake(null);
 
         String elJSON = laLogica.construirJSON(NOMBRE_PRUEBA,
-                UUID_PRUEBA,
-                MAJOR_PRUEBA,
-                MINOR_PRUEBA,
-                TXPOWER_PRUEBA);
+                TIPOMEDICION_PRUEBA,
+                VALOR_PRUEBA);
 
-        // ---- no son decimales (no aparecen como 1234.0, 2816.0 ni 4.0) ----
-        assertFalse("minor no puede ir con .0 en -> " + elJSON, elJSON.contains("\"minor\": 1234.0"));
-        assertFalse("major no puede ir con .0 en -> " + elJSON, elJSON.contains("\"major\": 2816.0"));
-        assertFalse("tx_power no puede ir con .0 en -> " + elJSON, elJSON.contains("\"tx_power\": 4.0"));
+        // ---- "valor" no es decimal (no aparece como 1234.0) ---------------
+        assertFalse("valor no puede ir con .0 en -> " + elJSON, elJSON.contains("\"valor\": 1234.0"));
 
-        // ---- no van entre comillas (no son texto) -------------------------
-        assertFalse("minor no puede ir entre comillas en -> " + elJSON, elJSON.contains("\"minor\": \"1234\""));
-        assertFalse("major no puede ir entre comillas en -> " + elJSON, elJSON.contains("\"major\": \"2816\""));
-        assertFalse("tx_power no puede ir entre comillas en -> " + elJSON, elJSON.contains("\"tx_power\": \"4\""));
+        // ---- "valor" no va entre comillas (es un numero, no texto) --------
+        assertFalse("valor no puede ir entre comillas en -> " + elJSON, elJSON.contains("\"valor\": \"1234\""));
 
     } // ()
 

@@ -21,7 +21,7 @@ titulo('integracion.test.js - GET real al servidor REST de XAMPP');
 const ORIGEN = process.env.BEACON_ORIGEN || 'http://localhost';
 const URL_MEDICIONES = ORIGEN + LogicaFake.URL_MEDICIONES;
 
-comprobar('el servidor devuelve la lista de mediciones con los 7 campos', async function () {
+comprobar('el servidor devuelve la lista de mediciones con los 5 campos', async function () {
     console.log('  (probando contra ' + URL_MEDICIONES + ')');
 
     // ---- 1. Llamamos a la logica fake de verdad (sin mocks) ----
@@ -42,15 +42,15 @@ comprobar('el servidor devuelve la lista de mediciones con los 7 campos', async 
     cierto(Array.isArray(mediciones), 'devuelve un array');
     cierto(mediciones.length > 0, 'hay al menos una medicion en la base de datos');
 
-    // ---- 3. Cada medicion trae los 7 campos del diseño ----
+    // ---- 3. Cada medicion trae los 5 campos del diseño ----
     for (const m of mediciones) {
-        for (const campo of ['id', 'uuid', 'major', 'minor', 'tx_power',
+        for (const campo of ['id', 'tipo_medicion', 'valor',
                              'nombre_emisora', 'fecha_hora']) {
             cierto(campo in m, 'la medicion ' + m.id + ' trae el campo ' + campo);
         }
-        // El valor medido es el minor y llega como numero.
-        igual(typeof m.minor, 'number', 'minor es un numero');
-        cierto(Number.isInteger(m.minor), 'minor es un entero');
+        // El valor medido es el campo "valor" y llega como numero.
+        igual(typeof m.valor, 'number', 'valor es un numero');
+        cierto(Number.isInteger(m.valor), 'valor es un entero');
     }
 
     // ---- 4. Esta ordenada de la mas reciente a la mas antigua ----
@@ -68,10 +68,8 @@ comprobar('la ultima medicion guardada por POST es la primera de la lista', asyn
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            uuid: 'EPSG-GTI-PROY-3A',
-            major: 2816,
-            minor: 1234,
-            tx_power: 4,
+            tipo_medicion: 'MANUAL',
+            valor: 1234,
             nombre_emisora: 'Minerva_ELBACON'
         })
     });
@@ -91,10 +89,8 @@ comprobar('la ultima medicion guardada por POST es la primera de la lista', asyn
     const primera = mediciones[0];
 
     igual(primera.id, guardado.id, 'la medicion guardada es la primera de la lista');
-    igual(primera.minor, 1234, 'el valor medido es 1234');
-    igual(primera.uuid, 'EPSG-GTI-PROY-3A', 'el uuid se guardo bien');
-    igual(primera.major, 2816, 'el major se guardo bien');
-    igual(primera.tx_power, 4, 'el tx_power se guardo bien');
+    igual(primera.valor, 1234, 'el valor medido es 1234');
+    igual(primera.tipo_medicion, 'MANUAL', 'el tipo_medicion se guardo bien');
     igual(primera.nombre_emisora, 'Minerva_ELBACON', 'la emisora se guardo bien');
     cierto(primera.fecha_hora !== null && primera.fecha_hora !== '',
            'la BBDD puso la fecha_hora');

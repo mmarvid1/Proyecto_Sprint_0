@@ -6,8 +6,9 @@
 -- USO      : Sprint 0 - Proyecto Beacon. Cada medicion captada por la app
 --            Android (POST) y validada por la logica de negocio se guarda
 --            aqui; la web (GET) las recupera de esta misma tabla.
--- REPARTO  : NO existe el campo "valor_medicion". El valor de la medicion
---            ES el campo "minor" (en este proyecto 1234).
+-- REPARTO  : El valor de la medicion ES el campo "valor" (en este proyecto
+--            1234) y el tipo de magnitud medida ES el campo "tipo_medicion".
+--            Ya NO existen los campos "uuid" ni "tx_power".
 -- =====================================================================
 
 -- ---- 1. Creamos la base de datos ----
@@ -24,10 +25,8 @@ USE mediciones_db;
 -- fecha_hora la pone la propia BBDD (CURRENT_TIMESTAMP), nunca el codigo.
 CREATE TABLE IF NOT EXISTS mediciones (
     id              INT UNSIGNED    NOT NULL AUTO_INCREMENT,  -- lo pone la BBDD
-    uuid            VARCHAR(32)     NULL,                      -- metadato opcional
-    major           SMALLINT SIGNED NULL,                      -- metadato opcional
-    minor           SMALLINT SIGNED NOT NULL,                  -- OBLIGATORIO: el valor medido
-    tx_power        TINYINT         NULL,                      -- metadato opcional (admite negativos)
+    tipo_medicion   VARCHAR(32)     NULL,                      -- metadato opcional: tipo de magnitud
+    valor           SMALLINT SIGNED NOT NULL,                  -- OBLIGATORIO: el valor medido
     nombre_emisora  VARCHAR(64)     NULL,                      -- metadato opcional
     fecha_hora      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP, -- la pone la BBDD
 
@@ -38,15 +37,17 @@ CREATE TABLE IF NOT EXISTS mediciones (
   COLLATE = utf8mb4_unicode_ci;
 
 -- ---- 4. Insertamos 3 filas de ejemplo del beacon ----
--- Valores reales del proyecto: uuid "EPSG-GTI-PROY-3A", minor 1234,
--- major 2816, tx_power 4 y emisora "Minerva_ELBACON".
--- Tres fechas/horas distintas y proximas para que el orden por fecha
--- descendente (que usa recuperarMedicion) sea comprobable.
+-- Valores reales del proyecto: tipo_medicion 'MANUAL' (medida introducida
+-- a mano), valor 1234 y emisora "Minerva_ELBACON". Tres fechas/horas
+-- distintas y proximas para que el orden por fecha descendente (que usa
+-- recuperarMedicion) sea comprobable.
+-- El byte alto de 'major' (MANUAL = 14) es el que identifica el tipo de
+-- magnitud; la app lo traduce a este texto antes de mandarlo.
 INSERT INTO mediciones
-    (uuid, major, minor, tx_power, nombre_emisora, fecha_hora)
+    (tipo_medicion, valor, nombre_emisora, fecha_hora)
 VALUES
-    ('EPSG-GTI-PROY-3A', 2816, 1234, 4, 'Minerva_ELBACON', '2026-09-28 09:00:00'),
-    ('EPSG-GTI-PROY-3A', 2816, 1234, 4, 'Minerva_ELBACON', '2026-09-28 09:00:05'),
-    ('EPSG-GTI-PROY-3A', 2816, 1234, 4, 'Minerva_ELBACON', '2026-09-28 09:00:10');
+    ('MANUAL', 1234, 'Minerva_ELBACON', '2026-09-28 09:00:00'),
+    ('MANUAL', 1234, 'Minerva_ELBACON', '2026-09-28 09:00:05'),
+    ('MANUAL', 1234, 'Minerva_ELBACON', '2026-09-28 09:00:10');
 
 -- () Fin del script.

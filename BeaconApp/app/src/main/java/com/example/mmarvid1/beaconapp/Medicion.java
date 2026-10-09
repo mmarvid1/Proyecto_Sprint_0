@@ -12,17 +12,13 @@ package com.example.mmarvid1.beaconapp;
 //                        |
 //                        |
 //                        | nombreEmisora: Text
-//                        | uuid: Text
-//                        | major: N
-//                        | minor: N
-//                        | txPower: Z
+//                        | tipoMedicion: Text
+//                        | valor: N
 //                        |
 //                        |
 //  nombreEmisora: Text --> Medicion() -->
-//          uuid: Text -->
-//            major: N -->
-//            minor: N -->
-//          txPower: Z -->
+//          tipoMedicion: Text -->
+//            valor: N -->
 //                        |
 //                        |
 //  nombreEmisora: Text --> Medicion() -->
@@ -32,16 +28,10 @@ package com.example.mmarvid1.beaconapp;
 //  nombreEmisora: Text <-- getNombreEmisora() <--
 //                        |
 //                        |
-//          uuid: Text <-- getUuid() <--
+//          tipoMedicion: Text <-- getTipoMedicion() <--
 //                        |
 //                        |
-//            major: N <-- getMajor() <--
-//                        |
-//                        |
-//            minor: N <-- getMinor() <--
-//                        |
-//                        |
-//          txPower: Z <-- getTxPower() <--
+//            valor: N <-- getValor() <--
 //                        |
 //                        |
 //      medicion: Text <-- toString() <--
@@ -50,26 +40,28 @@ package com.example.mmarvid1.beaconapp;
 // -----------------------------------------------------------------------------------
 
 public class Medicion {
+
+    // Los mismos valores que el enum MedicionesID del Arduino. El tipo de
+    // magnitud viaja en el byte alto de "major"; aqui se traduce a texto.
+    private static final int CO2 = 11;
+    private static final int TEMPERATURA = 12;
+    private static final int RUIDO = 13;
+    private static final int MANUAL = 14;
+
     private final String nombreEmisora;
-    private final String uuid;
-    private final int major;
-    private final int minor;
-    private final int txPower;
+    private final String tipoMedicion;
+    private final int valor;
 
 // -----------------------------------------------------------------------------------
 // nombreEmisora: Text
-//          uuid: Text
-//            major: N
-//            minor: N
-//          txPower: Z
+//          tipoMedicion: Text
+//            valor: N
 //                  --> Medicion() -->
 // -----------------------------------------------------------------------------------
-    public Medicion(String nombreEmisora, String uuid, int major, int minor, int txPower) {
+    public Medicion(String nombreEmisora, String tipoMedicion, int valor) {
         this.nombreEmisora = nombreEmisora;
-        this.uuid = uuid;
-        this.major = major;
-        this.minor = minor;
-        this.txPower = txPower;
+        this.tipoMedicion = tipoMedicion;
+        this.valor = valor;
     }
 
 // -----------------------------------------------------------------------------------
@@ -79,10 +71,26 @@ public class Medicion {
 // -----------------------------------------------------------------------------------
     public Medicion(String nombreEmisora, TramaIBeacon tib) {
         this.nombreEmisora = nombreEmisora;
-        this.uuid = Utilidades.bytesToString( tib.getUUID() );
-        this.major = Utilidades.bytesToIntOK( tib.getMajor() );
-        this.minor = Utilidades.bytesToIntOK( tib.getMinor() );
-        this.txPower = Utilidades.bytesToIntOK( new byte[]{ tib.getTxPower() } );
+        // major = (tipo << 8) + contador, asi que el tipo es "major >> 8".
+        int elTipo = Utilidades.bytesToIntOK( tib.getMajor() ) >> 8;
+        this.tipoMedicion = tipoMedicionATexto( elTipo );
+        this.valor = Utilidades.bytesToIntOK( tib.getMinor() );
+    }
+
+// -----------------------------------------------------------------------------------
+//          tipo: N <-- tipoMedicionATexto() <--
+//          texto: Text <--
+//  Traduce el numero de magnitud (byte alto de major) al texto que se
+//  guarda en la BBDD. Devuelve null si el tipo es desconocido.
+// -----------------------------------------------------------------------------------
+    private static String tipoMedicionATexto(int tipo) {
+        switch (tipo) {
+            case CO2:        return "CO2";
+            case TEMPERATURA: return "TEMPERATURA";
+            case RUIDO:      return "RUIDO";
+            case MANUAL:     return "MANUAL";
+            default:         return null;
+        }
     }
 
 // -----------------------------------------------------------------------------------
@@ -93,31 +101,17 @@ public class Medicion {
     }
 
 // -----------------------------------------------------------------------------------
-//          uuid: Text <-- getUuid() <--
+//          tipoMedicion: Text <-- getTipoMedicion() <--
 // -----------------------------------------------------------------------------------
-    public String getUuid() {
-        return this.uuid;
+    public String getTipoMedicion() {
+        return this.tipoMedicion;
     }
 
 // -----------------------------------------------------------------------------------
-//            major: N <-- getMajor() <--
+//            valor: N <-- getValor() <--
 // -----------------------------------------------------------------------------------
-    public int getMajor() {
-        return this.major;
-    }
-
-// -----------------------------------------------------------------------------------
-//            minor: N <-- getMinor() <--
-// -----------------------------------------------------------------------------------
-    public int getMinor() {
-        return this.minor;
-    }
-
-// -----------------------------------------------------------------------------------
-//          txPower: Z <-- getTxPower() <--
-// -----------------------------------------------------------------------------------
-    public int getTxPower() {
-        return this.txPower;
+    public int getValor() {
+        return this.valor;
     }
 
 // -----------------------------------------------------------------------------------
@@ -127,10 +121,8 @@ public class Medicion {
     public String toString() {
         return "Medicion{" +
                 "nombre_emisora='" + this.nombreEmisora + '\'' +
-                ", uuid='" + this.uuid + '\'' +
-                ", major=" + this.major +
-                ", minor=" + this.minor +
-                ", tx_power=" + this.txPower +
+                ", tipo_medicion='" + this.tipoMedicion + '\'' +
+                ", valor=" + this.valor +
                 '}';
     }
 

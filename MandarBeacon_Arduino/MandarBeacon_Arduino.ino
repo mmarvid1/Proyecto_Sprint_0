@@ -123,12 +123,9 @@ void loop () {
 
   lucecitas();
 
-  int valorCO2 = elMedidor.medirCO2();
-  
-  elPublicador.publicarCO2( valorCO2,
-							cont,
-							1000 // intervalo de emisión
-							);
+  elPublicador.publicarManual( cont,
+							   1000 // intervalo de emisión
+							   );
   
   
   esperar( 2000 );

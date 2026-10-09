@@ -2,7 +2,7 @@
     <string name="app_name">BeaconApp</string>
 
     <!-- Recordar cambiar la ip dependiendo si estamos utilizando wifi o datos -->
-    <string name="url_servidor" translatable="false">http://10.215.29.138/Proyecto_Sprint0/backend/public</string>
+    <string name="url_servidor" translatable="false">http://192.168.18.178/Proyecto_Sprint0/backend/public</string>
 
     <!--Nombre del beacon que buscamos. Tiene que ser exactamente el mismo-->
     <string name="nombre_beacon" translatable="false">Minerva_ELBACON</string>
