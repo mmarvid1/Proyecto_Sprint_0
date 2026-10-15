@@ -1,0 +1,9 @@
+{
+    "name": "web-mediciones-beacon",
+    "version": "1.0.0",
+    "description": "Web del Sprint 0 del Proyecto Beacon: historial de mediciones del beacon, actualizado automaticamente cada 5 segundos",
+    "private": true,
+    "scripts": {
+        "test": "node tests/logica_fake.test.js && node tests/ux.test.js && node tests/integracion.test.js"
+    }
+}

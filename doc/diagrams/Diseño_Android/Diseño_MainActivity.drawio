@@ -1,0 +1,202 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="KU9J9viZ-sPDottwZRqL">
+    <mxGraphModel dx="1663" dy="692" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="hTBx5d_PmN941BVxSoc2-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="632.5" width="454" x="155" y="67.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="MainActivity" vertex="1">
+          <mxGeometry height="50" width="120" x="322" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-4" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" target="hTBx5d_PmN941BVxSoc2-5" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="80" y="348" as="sourcePoint" />
+            <mxPoint x="204.75" y="348" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="buscarTodosLosDispositivosBTLE()" vertex="1">
+          <mxGeometry height="30" width="200.5" x="124.25" y="333" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="resultado: ScanResult" vertex="1">
+          <mxGeometry height="30" width="130.5" x="-54.5" y="386.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-11" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-10" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="hTBx5d_PmN941BVxSoc2-12" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="337" y="386.5" as="sourcePoint" />
+            <mxPoint x="127" y="401.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="mostrarInformacionDispositivoBTLE()" vertex="1">
+          <mxGeometry height="30" width="203.25" x="124.25" y="386.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-80" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="173" width="260" x="250" y="107" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-81" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="ETIQUETA_LOG: Text" vertex="1">
+          <mxGeometry height="30" width="130.5" x="316.75" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-82" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="CODIGO_PETICION_PERMISOS: Z" vertex="1">
+          <mxGeometry height="30" width="200.5" x="281.75" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-83" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="callbackDelEscaneo: ScanCallback" vertex="1">
+          <mxGeometry height="30" width="200.5" x="281.75" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-84" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="elEscanner: BluetoothLeScanner" vertex="1">
+          <mxGeometry height="30" width="184.5" x="289.75" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-86" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-5" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="324.75" y="347.62" as="sourcePoint" />
+            <mxPoint x="349.75" y="347.62" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-87" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-12" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="327.5" y="401.12" as="sourcePoint" />
+            <mxPoint x="352.75" y="401.62" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-89" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="dispositivoBuscado: Text" vertex="1">
+          <mxGeometry height="30" width="146" x="-70" y="442.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-90" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-89" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="hTBx5d_PmN941BVxSoc2-91" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="337" y="442.5" as="sourcePoint" />
+            <mxPoint x="127" y="457.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-91" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="buscarEsteDispositivoBTLE()" vertex="1">
+          <mxGeometry height="30" width="203.25" x="124.25" y="442.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-92" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-91" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="327.5" y="457.12" as="sourcePoint" />
+            <mxPoint x="352.75" y="457.62" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-94" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" target="hTBx5d_PmN941BVxSoc2-95" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="80" y="511" as="sourcePoint" />
+            <mxPoint x="127" y="511" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-95" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="detenerBusquedaDispositivosBTLE()" vertex="1">
+          <mxGeometry height="30" width="203.25" x="124.25" y="496" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-96" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-95" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="327.5" y="510.62" as="sourcePoint" />
+            <mxPoint x="352.75" y="511.12" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-97" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="v: View" vertex="1">
+          <mxGeometry height="30" width="73" x="3" y="547.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-98" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-97" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="hTBx5d_PmN941BVxSoc2-99" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="337" y="549" as="sourcePoint" />
+            <mxPoint x="127" y="564" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-99" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="botonBuscarDispositivosBTLEPulsado()" vertex="1">
+          <mxGeometry height="30" width="217.5" x="110" y="549" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-100" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-99" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="327.5" y="563.62" as="sourcePoint" />
+            <mxPoint x="352.75" y="564.12" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-101" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="botonBuscarNuestroDispositivoBTLEPulsado()" vertex="1">
+          <mxGeometry height="30" width="260" x="474.25" y="333" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-102" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="v: View" vertex="1">
+          <mxGeometry height="30" width="73" x="790" y="333" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-103" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-102" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="hTBx5d_PmN941BVxSoc2-101" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="570" y="490" as="sourcePoint" />
+            <mxPoint x="620" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-104" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-101" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="474.25" y="347.5" as="sourcePoint" />
+            <mxPoint x="440" y="347.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-105" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="botonDetenerBusquedaDispositivosBTLEPulsado()" vertex="1">
+          <mxGeometry height="30" width="283.75" x="474.25" y="384.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-106" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="v: View" vertex="1">
+          <mxGeometry height="30" width="73" x="788" y="384.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-107" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-106" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="hTBx5d_PmN941BVxSoc2-105" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="570" y="541.5" as="sourcePoint" />
+            <mxPoint x="620" y="491.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-108" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-105" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="474.25" y="399" as="sourcePoint" />
+            <mxPoint x="440" y="399" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-109" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="inicializarBluetooth()" vertex="1">
+          <mxGeometry height="30" width="283.75" x="474.25" y="442.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-111" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="hTBx5d_PmN941BVxSoc2-109" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="788" y="457.5000000000002" as="sourcePoint" />
+            <mxPoint x="620" y="549.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-112" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-109" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="474.25" y="457" as="sourcePoint" />
+            <mxPoint x="440" y="457" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-113" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="OnCreate()" vertex="1">
+          <mxGeometry height="30" width="283.75" x="474.25" y="496" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-114" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="savedInstanceState: Bundle" vertex="1">
+          <mxGeometry height="30" width="162" x="788" y="496" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-115" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-114" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="hTBx5d_PmN941BVxSoc2-113" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="570" y="653" as="sourcePoint" />
+            <mxPoint x="620" y="603" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-116" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-113" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="474.25" y="510.5" as="sourcePoint" />
+            <mxPoint x="440" y="510.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-117" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="onRequestPermissionsResult()" vertex="1">
+          <mxGeometry height="30" width="283.75" x="474.25" y="547.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-118" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="requestCode: Z&lt;div&gt;permissions: [Text]&lt;/div&gt;&lt;div&gt;grantResults: [Z]&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="162" x="788" y="537.5" as="geometry" />
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-119" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-118" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="hTBx5d_PmN941BVxSoc2-117" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="570" y="704.5" as="sourcePoint" />
+            <mxPoint x="620" y="654.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hTBx5d_PmN941BVxSoc2-120" edge="1" parent="1" source="hTBx5d_PmN941BVxSoc2-117" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="474.25" y="562" as="sourcePoint" />
+            <mxPoint x="440" y="562" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
