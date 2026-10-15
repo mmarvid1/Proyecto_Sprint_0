@@ -1,0 +1,136 @@
+// =====================================================================
+// FICHERO : logica_fake.test.js
+// PROPOSITO: Prueba la logica fake del navegador (logica_fake.js): que
+//            pide las mediciones por GET, limpia los datos y rechaza
+//            cuando el servidor falla.
+// USO      : Sprint 0 - Proyecto Beacon. Se ejecuta con Node puro,
+//            mockeando el "fetch" global. Sin librerias externas.
+// Ejecutar  : node web/tests/logica_fake.test.js
+// =====================================================================
+
+const { comprobar, igual, cierto, contiene, titulo, resumen } = require('./ayuda.js');
+const LogicaFake = require('../../frontend_business_logic/logica_fake.js');
+
+titulo('logica_fake.js - LogicaFake.recuperarMedicion()');
+
+// ---- Guardamos el fetch real para poder devolverlo al final ----
+const fetchOriginal = globalThis.fetch;
+
+// ---- Funcion auxiliar: mockearFetch ----
+// PROPOSITO: Sustituye el fetch global por una version falsa que
+//            devuelve la respuesta que le pidamos y guarda la llamada.
+// PARAM.   : object respuesta - { ok, status, json() }.
+// RETORNA  : function obtenerLlamada - devuelve como se llamo a fetch.
+function mockearFetch(respuesta) {
+    const llamadas = [];
+    globalThis.fetch = async function (url, opciones) {
+        llamadas.push({ url: url, opciones: opciones });
+        return respuesta;
+    };
+    return function obtenerLlamada() {
+        return llamadas;
+    };
+}
+
+// =====================================================================
+// Prueba 1: resuelve segun lo que devuelve el servidor
+// =====================================================================
+comprobar('resuelve el listado y limpia los tipos de cada Medicion', async function () {
+    // Respuesta tipica de MariaDB: "valor" puede venir como texto;
+    // "tipo_medicion" es texto (CO2/TEMPERATURA/RUIDO/MANUAL).
+    mockearFetch({
+        ok: true,
+        status: 200,
+        json: async () => ({
+            mediciones: [{
+                tipo_medicion: 'MANUAL',
+                valor: '1234',
+                identificador_placa: 'Minerva_ELBACON',
+                fecha_hora: '2026-09-28 09:00:00'
+            }]
+        })
+    });
+
+    return LogicaFake.recuperarMedicion().then(function (mediciones) {
+        igual(mediciones.length, 1, 'numero de mediciones');
+        igual(mediciones[0].tipo_medicion, 'MANUAL', 'tipo_medicion como cadena');
+        igual(mediciones[0].valor, 1234, 'valor como numero');
+        igual(mediciones[0].identificador_placa, 'Minerva_ELBACON', 'identificador_placa');
+        igual(mediciones[0].fecha_hora, '2026-09-28 09:00:00', 'fecha_hora');
+    });
+});
+
+// =====================================================================
+// Prueba 2: array vacio si no hay mediciones
+// =====================================================================
+comprobar('devuelve [] cuando la lista de mediciones esta vacia', async function () {
+    mockearFetch({
+        ok: true,
+        status: 200,
+        json: async () => ({ mediciones: [] })
+    });
+
+    return LogicaFake.recuperarMedicion().then(function (mediciones) {
+        cierto(Array.isArray(mediciones), 'devuelve un array');
+        igual(mediciones.length, 0, 'numero de mediciones');
+    });
+});
+
+// =====================================================================
+// Prueba 3: rechaza si el servidor falla
+// =====================================================================
+comprobar('rechaza con el error del servidor cuando la respuesta no es 200', async function () {
+    mockearFetch({
+        ok: false,
+        status: 500,
+        json: async () => ({ error: 'error interno del servidor' })
+    });
+
+    return LogicaFake.recuperarMedicion().then(function () {
+        throw new Error('deberia haber rechazado y no lo hizo');
+    }, function (e) {
+        contiene(e.message, 'error');
+    });
+});
+
+// =====================================================================
+// Prueba 4: rechaza si "mediciones" no es una lista
+// =====================================================================
+comprobar('rechaza si la respuesta no trae una lista de mediciones', async function () {
+    mockearFetch({
+        ok: true,
+        status: 200,
+        json: async () => ({ otra_cosa: 1 })
+    });
+
+    return LogicaFake.recuperarMedicion().then(function () {
+        throw new Error('deberia haber rechazado y no lo hizo');
+    }, function (e) {
+        contiene(e.message, 'no contiene una lista');
+    });
+});
+
+// =====================================================================
+// Prueba 5: llama a fetch con el verbo GET y la ruta /mediciones
+// =====================================================================
+comprobar('llama a fetch con el metodo GET y la ruta /mediciones', async function () {
+    const obtenerLlamada = mockearFetch({
+        ok: true,
+        status: 200,
+        json: async () => ({ mediciones: [] })
+    });
+
+    return LogicaFake.recuperarMedicion().then(function () {
+        const llamadas = obtenerLlamada();
+        igual(llamadas.length, 1, 'numero de llamadas a fetch');
+        igual(llamadas[0].opciones.method, 'GET', 'verbo HTTP');
+        contiene(llamadas[0].url, '/mediciones');
+        igual(llamadas[0].url, LogicaFake.URL_MEDICIONES, 'usa URL_MEDICIONES');
+    });
+});
+
+// ---- Devolvemos el fetch real ----
+globalThis.fetch = fetchOriginal;
+
+// ---- El resumen espera a que terminen los tests asincronos ----
+resumen('logica_fake.test.js');
