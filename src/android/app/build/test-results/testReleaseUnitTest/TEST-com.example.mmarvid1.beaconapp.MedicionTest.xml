@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.mmarvid1.beaconapp.MedicionTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-13T14:52:55.790Z" hostname="DESKTOP-L590KPD" time="0.009">
+  <properties/>
+  <testcase name="elTxPowerRespetaElSigno" classname="com.example.mmarvid1.beaconapp.MedicionTest" time="0.006"/>
+  <testcase name="elMajorTambienVaEnOrdenNormal" classname="com.example.mmarvid1.beaconapp.MedicionTest" time="0.0"/>
+  <testcase name="elMinorSeLeeEnElOrdenEnQueViene" classname="com.example.mmarvid1.beaconapp.MedicionTest" time="0.0"/>
+  <testcase name="unaMedicionCompletaSeLeeBien" classname="com.example.mmarvid1.beaconapp.MedicionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
