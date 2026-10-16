@@ -3,8 +3,10 @@ package com.example.mmarvid1.beaconapp;
 import java.util.Arrays;
 
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : TramaIBeacon.java
+//  PROPOSITO : Trocea la trama iBeacon recibida en sus campos (uuid, major, minor, txPower).
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 
 // -----------------------------------------------------------------------------------

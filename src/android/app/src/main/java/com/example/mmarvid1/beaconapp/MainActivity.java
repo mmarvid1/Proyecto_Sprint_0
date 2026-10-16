@@ -27,8 +27,10 @@ import com.example.mmarvid1.beaconapp.logicafake.LogicaFake;
 import java.util.List;
 
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : MainActivity.java
+//  PROPOSITO : Pantalla principal: escanea beacons BLE y envia las mediciones al servidor.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 
 // -----------------------------------------------------------------------------------

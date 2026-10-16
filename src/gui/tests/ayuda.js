@@ -1,5 +1,7 @@
 // =====================================================================
 // FICHERO : ayuda.js
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: Ayudante minimo de aserciones para los tests de la web.
 //            No usamos ninguna libreria externa (ni Jest) para que
 //            "npm test" funcione solo con Node, sin descargas.

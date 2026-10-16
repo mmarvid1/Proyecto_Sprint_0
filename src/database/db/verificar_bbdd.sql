@@ -1,5 +1,7 @@
 -- =====================================================================
 -- FICHERO : verificar_bbdd.sql
+-- AUTOR   : Minerva Maravilla Vidaurre
+-- FECHA   : 05/10/2026
 -- PROPOSITO: Script de prueba de la base de datos "mediciones_db".
 --            Comprueba, en orden y con sus comentarios, que la tabla
 --            existe, que tiene las 4 columnas del diseño en ese orden,

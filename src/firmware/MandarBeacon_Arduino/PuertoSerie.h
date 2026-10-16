@@ -1,6 +1,8 @@
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : PuertoSerie.h
+//  PROPOSITO : Puerto serie: escritura y lectura de texto por el monitor serie.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 #ifndef PUERTO_SERIE_H_INCLUIDO
 #define PUERTO_SERIE_H_INCLUIDO

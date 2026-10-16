@@ -1,6 +1,8 @@
 <?php
 // =====================================================================
 // FICHERO : ayuda.php
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: Minicorchesta de pruebas para PHP sin dependencias externas.
 //            Sigue el mismo estilo que los tests de JS de la GUI.
 // USO      : Sprint 0 - Proyecto Beacon. La usa LogicaNegocioTest.php.

@@ -1,5 +1,7 @@
 -- =====================================================================
 -- FICHERO : borrar_bbdd.sql
+-- AUTOR   : Minerva Maravilla Vidaurre
+-- FECHA   : 05/10/2026
 -- PROPOSITO: Destruye por completo la base de datos "mediciones_db" para
 --            poder reconstruirla desde cero con "crear_bbdd.sql".
 -- USO      : Sprint 0 - Proyecto Beacon. La base almacuna las mediciones

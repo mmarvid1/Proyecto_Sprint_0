@@ -6,6 +6,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+// ===========================================================================
+//  FICHERO   : LogicaFakeTest.java
+//  PROPOSITO : Pruebas de LogicaFake: URL del servidor y construccion del JSON.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
+// ===========================================================================
+
 // -----------------------------------------------------------------------------------
 //  DISENO LOGICO   --   CLASE COMPLETA
 // -----------------------------------------------------------------------------------

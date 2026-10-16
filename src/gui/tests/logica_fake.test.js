@@ -1,5 +1,7 @@
 // =====================================================================
 // FICHERO : logica_fake.test.js
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: Prueba la logica fake del navegador (logica_fake.js): que
 //            pide las mediciones por GET, limpia los datos y rechaza
 //            cuando el servidor falla.

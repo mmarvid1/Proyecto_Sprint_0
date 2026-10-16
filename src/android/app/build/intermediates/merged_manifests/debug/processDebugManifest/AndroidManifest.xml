@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ ===========================================================================
+     FICHERO   : AndroidManifest.xml
+     PROPOSITO : Manifiesto de la app: permisos de Bluetooth/ubicacion y la activity principal.
+     AUTOR     : Minerva Maravilla Vidaurre
+     FECHA     : 05/10/2026
+     ===========================================================================
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mmarvid1.beaconapp"
     android:versionCode="1"

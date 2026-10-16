@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.mmarvid1.beaconapp.logicafake.LogicaFakeTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-13T18:02:22.873Z" hostname="DESKTOP-L590KPD" time="0.002">
+<testsuite name="com.example.mmarvid1.beaconapp.logicafake.LogicaFakeTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-16T07:14:43.332Z" hostname="DESKTOP-L590KPD" time="0.002">
   <properties/>
   <testcase name="losNumerosSeMandanComoEnteros" classname="com.example.mmarvid1.beaconapp.logicafake.LogicaFakeTest" time="0.001"/>
   <testcase name="urlServidorTerminaEnMediciones" classname="com.example.mmarvid1.beaconapp.logicafake.LogicaFakeTest" time="0.0"/>

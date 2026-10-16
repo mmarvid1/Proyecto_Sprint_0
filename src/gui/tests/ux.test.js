@@ -1,5 +1,7 @@
 // =====================================================================
 // FICHERO : ux.test.js
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: Prueba la UX del navegador (ux.js): que pinta la tabla con
 //            los campos de cada medicion, que avisa de los estados
 //            vacio y error, y que se refresca sola sin botones.

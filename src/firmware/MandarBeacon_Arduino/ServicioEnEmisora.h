@@ -1,6 +1,8 @@
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : ServicioEnEmisora.h
+//  PROPOSITO : Servicio GATT y sus caracteristicas para la emisora BLE.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 #ifndef SERVICIO_EMISORA_H_INCLUIDO
 #define SERVICIO_EMISORA_H_INCLUIDO

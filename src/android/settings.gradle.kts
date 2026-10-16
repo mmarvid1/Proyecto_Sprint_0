@@ -1,3 +1,9 @@
+// ===========================================================================
+//  FICHERO   : settings.gradle.kts
+//  PROPOSITO : Configuracion de Gradle: repositorios y modulos del proyecto.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
+// ===========================================================================
 pluginManagement {
     repositories {
         google {

@@ -1,3 +1,9 @@
+<!-- ===========================================================================
+     FICHERO   : themes.xml
+     PROPOSITO : Tema claro de la app.
+     AUTOR     : Minerva Maravilla Vidaurre
+     FECHA     : 05/10/2026
+     =========================================================================== -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.BeaconApp" parent="Theme.Material3.DayNight.NoActionBar">

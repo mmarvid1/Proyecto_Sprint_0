@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- ===========================================================================
+     FICHERO   : activity_main.xml
+     PROPOSITO : Layout de la pantalla principal: botones de escaneo y estado.
+     AUTOR     : Minerva Maravilla Vidaurre
+     FECHA     : 05/10/2026
+     =========================================================================== -->
 <android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"

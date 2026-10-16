@@ -12,8 +12,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : PeticionarioREST.java
+//  PROPOSITO : Cliente REST: hace peticiones HTTP al servidor en segundo plano.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 
 // -----------------------------------------------------------------------------------

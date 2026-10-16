@@ -1,6 +1,8 @@
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : LED.h
+//  PROPOSITO : Control del LED de la placa: encender y parpadear.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 #ifndef LED_H_INCLUIDO
 #define LED_H_INCLUIDO
