@@ -1,8 +1,10 @@
 package com.example.mmarvid1.beaconapp;
 
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : Medicion.java
+//  PROPOSITO : Modelo de una medicion (placa, tipo y valor) y su lectura desde una trama iBeacon.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 
 // -----------------------------------------------------------------------------------

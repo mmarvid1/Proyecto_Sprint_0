@@ -1,6 +1,8 @@
 <?php
 // =====================================================================
 // FICHERO : LogicaNegocio.php
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: Clase con la logica de negocio real del backend. Valida las
 //            mediciones y las guarda en la base de datos, y devuelve la
 //            lista completa de mediciones guardadas.

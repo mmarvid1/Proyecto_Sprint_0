@@ -1,3 +1,9 @@
+# ===========================================================================
+#  FICHERO   : proguard-rules.pro
+#  PROPOSITO : Reglas de ProGuard para el empaquetado de la app.
+#  AUTOR     : Minerva Maravilla Vidaurre
+#  FECHA     : 05/10/2026
+# ===========================================================================
 # Add project specific ProGuard rules here.
 # You can control the set of applied configuration files using the
 # proguardFiles setting in build.gradle.

@@ -1,6 +1,8 @@
 <?php
 // =====================================================================
 // FICHERO : LogicaNegocioTest.php
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: Pruebas unitarias e de integracion de la logica de negocio
 //            del backend (LogicaNegocio). Las de validacion NO necesitan
 //            base de datos; las de integracion usan "mediciones_db_test"

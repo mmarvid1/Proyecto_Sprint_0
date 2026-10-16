@@ -1,5 +1,7 @@
 // =====================================================================
 // FICHERO : logica_fake.js
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: Logica fake del NAVEGADOR. Hace la peticion HTTP al servidor
 //            REST para recuperar las mediciones y devuelve los datos
 //            LIMPIOS, listos para que la UX (ux.js) los pinte.

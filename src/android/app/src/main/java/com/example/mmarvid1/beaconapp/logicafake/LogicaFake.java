@@ -6,8 +6,10 @@ import com.example.mmarvid1.beaconapp.Medicion;
 import com.example.mmarvid1.beaconapp.PeticionarioREST;
 
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : LogicaFake.java
+//  PROPOSITO : Logica fake del telefono: construye el JSON y envia la medicion al servidor.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 
 // -----------------------------------------------------------------------------------

@@ -1,6 +1,8 @@
 <?php
 // =====================================================================
 // FICHERO : ServidorREST.php
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: Implementa el servidor REST del backend. Expone las 2 rutas
 //            del proyecto (POST /mediciones y GET /mediciones) y una
 //            tercera ruta de error para todo lo demas.

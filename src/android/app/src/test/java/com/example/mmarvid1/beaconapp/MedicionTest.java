@@ -4,6 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+// ===========================================================================
+//  FICHERO   : MedicionTest.java
+//  PROPOSITO : Pruebas de la conversion de bytes a enteros y de la clase Medicion.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
+// ===========================================================================
+
 // -----------------------------------------------------------------------------------
 //  DISENO LOGICO   --   CLASE COMPLETA
 // -----------------------------------------------------------------------------------

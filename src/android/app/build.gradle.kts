@@ -1,3 +1,9 @@
+// ===========================================================================
+//  FICHERO   : app/build.gradle.kts
+//  PROPOSITO : Configuracion de compilacion del modulo app (SDK, dependencias).
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
+// ===========================================================================
 plugins {
     alias(libs.plugins.android.application)
 }

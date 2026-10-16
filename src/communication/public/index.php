@@ -1,6 +1,8 @@
 <?php
 // =====================================================================
 // FICHERO : index.php  (front controller del servidor REST)
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: Punto de entrada unico del backend. Prepara la respuesta
 //            JSON, crea el ServidorREST y despacha la peticion hacia el
 //            metodo correcto segun el verbo HTTP y la ruta pedida.

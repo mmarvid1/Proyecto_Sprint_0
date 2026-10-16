@@ -1,6 +1,8 @@
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : Publicador.h
+//  PROPOSITO : Publicador: traduce una medida al anuncio iBeacon correspondiente.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 #ifndef PUBLICADOR_H_INCLUIDO
 #define PUBLICADOR_H_INCLUIDO
@@ -53,7 +55,7 @@
 class Publicador {
 
 private:
-	const double VALOR_MANUAL=1;
+	const double VALOR_MANUAL=124;
 
   uint8_t beaconUUID[16] = { 
 	'E', 'P', 'S', 'G', '-', 'G', 'T', 'I', 
@@ -127,8 +129,7 @@ public:
   //  tiempoEspera: Z
   //                  --> publicarTemperatura() -->
   // ------------------------------------------------------------
-  void publicarTemperatura( int16_t valorTemperatura,
-							uint8_t contador, long tiempoEspera ) {
+  void publicarTemperatura( int16_t valorTemperatura, uint8_t contador, long tiempoEspera ) {
 
 	uint16_t major = (MedicionesID::TEMPERATURA << 8) + contador;
 	(*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID, 

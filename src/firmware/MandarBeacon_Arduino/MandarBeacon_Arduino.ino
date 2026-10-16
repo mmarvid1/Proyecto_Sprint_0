@@ -1,6 +1,8 @@
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : MandarBeacon_Arduino.ino
+//  PROPOSITO : Programa principal del emisor: inicializa la placa y publica mediciones en bucle.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 //  DISEÑO   --  MandarBeacon_Arduino.ino
 // ===========================================================================

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- ===========================================================================
+     FICHERO   : colors.xml
+     PROPOSITO : Colores basicos de la app.
+     AUTOR     : Minerva Maravilla Vidaurre
+     FECHA     : 05/10/2026
+     =========================================================================== -->
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

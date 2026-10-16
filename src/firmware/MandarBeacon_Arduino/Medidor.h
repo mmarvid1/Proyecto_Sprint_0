@@ -1,6 +1,8 @@
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : Medidor.h
+//  PROPOSITO : Medidor del beacon: obtiene las magnitudes que se publican.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 #ifndef MEDIDOR_H_INCLUIDO
 #define MEDIDOR_H_INCLUIDO

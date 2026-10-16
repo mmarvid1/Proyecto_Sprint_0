@@ -1,5 +1,7 @@
 // =====================================================================
 // FICHERO : integracion.test.js
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: Prueba de integracion REAL contra el servidor REST de XAMPP.
 //            No usa mocks: hace el mismo GET que hace la web y comprueba
 //            que llegan mediciones de verdad con los campos correctos.

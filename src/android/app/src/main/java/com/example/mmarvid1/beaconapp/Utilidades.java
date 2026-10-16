@@ -6,8 +6,10 @@ import java.nio.ByteBuffer;
 import java.util.UUID;
 
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : Utilidades.java
+//  PROPOSITO : Funciones auxiliares: conversion de bytes y utilidades varias.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 
 // -----------------------------------------------------------------------------------

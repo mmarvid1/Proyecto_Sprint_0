@@ -1,5 +1,7 @@
 // =====================================================================
 // FICHERO : ux.js
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: UX del NAVEGADOR. Muestra el historial de mediciones que
 //            llega de LogicaFake.recuperarMedicion() y se refresca solo,
 //            sin ningun boton que pulsar.

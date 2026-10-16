@@ -1,6 +1,8 @@
 <?php
 // =====================================================================
 // FICHERO : config.php
+// AUTOR   : Minerva Maravilla Vidaurre
+// FECHA   : 05/10/2026
 // PROPOSITO: Centraliza los datos de conexion con la base de datos y
 //            ofrece conectarBD() para abrir la conexion PDO.
 // USO      : Sprint 0 - Proyecto Beacon. Lo usa LogicaNegocio, que es

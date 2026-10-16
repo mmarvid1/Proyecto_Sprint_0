@@ -1,5 +1,7 @@
 # =====================================================================
 # FICHERO : .htaccess
+# AUTOR   : Minerva Maravilla Vidaurre
+# FECHA   : 05/10/2026
 # PROPOSITO: Reescribe las URLs del servidor REST para que todas las
 #            peticiones lleguen al front controller "index.php".
 # USO      : Sprint 0 - Proyecto Beacon. Consigue que la ruta canonica

@@ -1,5 +1,7 @@
 -- =====================================================================
 -- FICHERO : crear_bbdd.sql
+-- AUTOR   : Minerva Maravilla Vidaurre
+-- FECHA   : 05/10/2026
 -- PROPOSITO: Crea la base de datos "mediciones_db" con su unica tabla
 --            "mediciones" y la deja con 3 filas de ejemplo del beacon,
 --            tal y como define el diseño de la base de datos.

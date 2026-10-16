@@ -1,6 +1,8 @@
 // ===========================================================================
-//  Minerva Maravilla Vidaurre
-//  05/10/2026
+//  FICHERO   : EmisoraBLE.h
+//  PROPOSITO : Emisora BLE: enciende la radio y emite anuncios iBeacon.
+//  AUTOR     : Minerva Maravilla Vidaurre
+//  FECHA     : 05/10/2026
 // ===========================================================================
 #ifndef EMISORA_H_INCLUIDO
 #define EMISORA_H_INCLUIDO

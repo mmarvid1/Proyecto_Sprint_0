@@ -1,3 +1,9 @@
+<!-- ===========================================================================
+     FICHERO   : strings.xml
+     PROPOSITO : Textos de la app y constantes (nombre de la placa y URL del servidor).
+     AUTOR     : Minerva Maravilla Vidaurre
+     FECHA     : 05/10/2026
+     =========================================================================== -->
 <resources>
     <string name="app_name">BeaconApp</string>
 
